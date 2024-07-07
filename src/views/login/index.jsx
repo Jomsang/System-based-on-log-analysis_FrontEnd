@@ -12,13 +12,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
+// import { useEffect } from "react";
 
 const Login = ({ onLogin }) => {
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  // const [alertFlag, setAlertFlag] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,10 +36,20 @@ const Login = ({ onLogin }) => {
       return;
     }
     // 로그인 성공 시 처리 (여기서는 간단하게 alert로 표시)
-    alert(`로그인 성공! 사용자: ${userId}`);
+   
+    // onLogin(userId);
+    //함수 하나 추가해서 부모에서 단계별로 상태 값 변경하면서 해야할거같음..
+    return (
+      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => onLogin(userId)}>
+       로그인에 성공하셨습니다.!
+       </Alert>
+   );
 
+   
+    // alert(`로그인 성공! 사용자: ${userId}`);
+ 
     // 실제로는 API 호출 등으로 백엔드와 연동하여 처리해야 함
-    onLogin(userId);
+    
 
   };
 
@@ -55,6 +67,10 @@ const Login = ({ onLogin }) => {
 }
 
 const theme = createTheme();
+
+// useEffect(() => {
+ 
+// }, [alertFlag])
 
   return (
     <ThemeProvider theme={theme}>
@@ -116,8 +132,6 @@ const theme = createTheme();
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
-
-
       </Container>
     </ThemeProvider>
   );
