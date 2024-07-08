@@ -1,5 +1,3 @@
 Front 리액트 
 
-- Main
-     Develop
-        feature/닉네임
+- 브랜치 구조는 main <- develop <- feature/닉네임 구조로 구성하였습니다.
