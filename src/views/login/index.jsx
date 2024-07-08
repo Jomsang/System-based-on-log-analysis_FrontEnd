@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,13 +14,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
-// import { useEffect } from "react";
 
 const Login = ({ onLogin }) => {
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
-  // const [alertFlag, setAlertFlag] = useState(false);
+  const [alertFlag, setAlertFlag] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -36,24 +35,15 @@ const Login = ({ onLogin }) => {
       return;
     }
     // 로그인 성공 시 처리 (여기서는 간단하게 alert로 표시)
+    setAlertFlag(true);
+    setTimeout(() => {
+      onLogin(userId);
+      setAlertFlag(false);
+    }, 1500);
    
-    // onLogin(userId);
-    //함수 하나 추가해서 부모에서 단계별로 상태 값 변경하면서 해야할거같음..
-    return (
-      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" onClose={() => onLogin(userId)}>
-       로그인에 성공하셨습니다.!
-       </Alert>
-   );
-
-   
-    // alert(`로그인 성공! 사용자: ${userId}`);
- 
-    // 실제로는 API 호출 등으로 백엔드와 연동하여 처리해야 함
-    
-
   };
 
-  function Copyright(props) {
+  const Copyright = (props) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -69,11 +59,18 @@ const Login = ({ onLogin }) => {
 const theme = createTheme();
 
 // useEffect(() => {
- 
+//   onLogin(userId);
 // }, [alertFlag])
 
   return (
     <ThemeProvider theme={theme}>
+       {alertFlag ? (
+          <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+          로그인에 성공하셨습니다.!
+          </Alert>
+        ) : (
+        <></>
+        )}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

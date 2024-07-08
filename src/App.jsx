@@ -12,7 +12,7 @@ const App = () => {
     setUsername(user);
     
   };
-// 1.alert 상태값 이용해서 로그인 성공or실패 뜨게하고 채팅창 넘어가게 하는거 생각해보기
+
   return (
     <div className="app">
       {!loggedIn ? (
