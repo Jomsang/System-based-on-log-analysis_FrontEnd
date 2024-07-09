@@ -1,35 +1,58 @@
+// ChatScreen.jsx
 import React, { useState } from 'react';
+import { TextField, Button, Typography, Paper, List, ListItem, ListItemText } from '@mui/material';
+import styles from './ChatScreen.module.css';
 
-const ChatScreen = ({ username }) => {
-  const [message, setMessage] = useState('');
+const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
 
-  const handleSendMessage = () => {
-    if (message.trim() === '') return;
-    // 메시지 추가 (여기서는 간단하게 배열에 추가)
-    setMessages([...messages, { author: username, content: message }]);
-    setMessage('');
+  const handleChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (input.trim() !== '') {
+      setMessages([...messages, { text: input, id: messages.length }]);
+      setInput('');
+    }
   };
 
   return (
-    <div className="chat-screen">
-      <h2>채팅</h2>
-      <div className="message-list">
-        {messages.map((msg, index) => (
-          <div key={index} className={msg.author === username ? 'my-message' : 'other-message'}>
-            <strong>{msg.author}: </strong>
-            <span>{msg.content}</span>
-          </div>
+    <Paper className={styles.container} elevation={3}>
+      <Typography variant="h5" gutterBottom>
+        Chat Study
+      </Typography>
+      <List className={styles.messages}>
+        {messages.map((message) => (
+          <ListItem key={message.id}>
+            <ListItemText primary={message.text} />
+          </ListItem>
         ))}
+      </List>
+      <div className={styles.promptContainer}>
+        <TextField
+          className={styles.inputField}
+          label="Enter your message"
+          variant="outlined"
+          fullWidth
+          value={input}
+          onChange={handleChange}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              handleSubmit();
+            }
+          }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
+          Send
+        </Button>
       </div>
-      <input
-        type="text"
-        placeholder="메시지 입력..."
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={handleSendMessage}>전송</button>
-    </div>
+    </Paper>
   );
 };
 
