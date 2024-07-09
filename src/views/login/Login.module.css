@@ -23,3 +23,7 @@
   .alert {
     margin-bottom: 1rem;
   }
+
+  .test {
+    math-depth: 1rem;
+  }
