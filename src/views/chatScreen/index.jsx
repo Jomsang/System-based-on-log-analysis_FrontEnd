@@ -1,4 +1,3 @@
-// ChatScreen.jsx
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper, List, ListItem, ListItemText } from '@mui/material';
 import styles from './ChatScreen.module.css';
