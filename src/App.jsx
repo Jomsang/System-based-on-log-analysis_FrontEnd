@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import LoginScreen from './views/login/index';
 import ChatScreen from './views/chatScreen/index';
+import { getMessage } from './apis/axiosConfig';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   
 
-  const handleLogin = (user) => {
+  const handleLogin = async (user) => {
     setLoggedIn(true);
     setUsername(user);
-    
+    await getMessage();
   };
+
  //주석테스트
   return (
     <div className="app">
