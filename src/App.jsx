@@ -11,10 +11,9 @@ const App = () => {
   const handleLogin = async (user) => {
     setLoggedIn(true);
     setUsername(user);
-    await getMessage();
   };
 
- //주석테스트
+ //주석테스트2
   return (
     <div className="app">
       {!loggedIn ? (
