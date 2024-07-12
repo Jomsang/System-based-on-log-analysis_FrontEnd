@@ -13,7 +13,6 @@ const App = () => {
     setUsername(user);
   };
 
- //주석테스트2
   return (
     <div className="app">
       {!loggedIn ? (
