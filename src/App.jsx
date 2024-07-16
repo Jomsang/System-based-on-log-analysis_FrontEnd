@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LoginScreen from './views/login/index';
 import ChatScreen from './views/chatScreen/index';
-import { getMessage } from './apis/axiosConfig';
+import { getMessage } from './apis/aiApi';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
