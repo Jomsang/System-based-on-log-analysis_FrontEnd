@@ -16,7 +16,7 @@ const ChatScreen = () => {
       setInput('');
     }
   };
-//mmm
+
   return (
     <Paper className={styles.container} elevation={3}>
       <Typography variant="h5" gutterBottom>
