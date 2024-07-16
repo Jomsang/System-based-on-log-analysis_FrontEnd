@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   Checkbox,
   Link,
-  Grid,
   Box,
   Typography,
   Container,
@@ -17,7 +16,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from './Login.module.css';
-//주석테스트
+
 const Login = ({ onLogin }) => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
