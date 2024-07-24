@@ -1,0 +1,26 @@
+/* Layout.module.css */
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 화면의 전체 높이를 설정 */
+  }
+  
+  .header {
+    background-color: #f8f9fa; /* 헤더 배경색 */
+    padding: 10px 20px; /* 패딩 설정 */
+    border-bottom: 1px solid #dee2e6; /* 헤더 하단에 경계선 */
+  }
+  
+  .footer {
+    background-color: #f8f9fa; /* 푸터 배경색 */
+    padding: 10px 20px; /* 패딩 설정 */
+    border-top: 1px solid #dee2e6; /* 푸터 상단에 경계선 */
+    margin-top: auto; /* 푸터를 화면 하단에 고정 */
+  }
+  
+  .main {
+    flex: 1; /* 콘텐츠 영역을 가능한 만큼 확장 */
+    padding: 20px; /* 콘텐츠 패딩 */
+  }
+  

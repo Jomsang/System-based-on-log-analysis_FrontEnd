@@ -1,120 +1,96 @@
 import React, { useState } from 'react';
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Box,
-  Typography,
-  Container,
-  Alert
-} from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import CheckIcon from '@mui/icons-material/Check';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from './Login.module.css';
 
-const Login = ({ onLogin }) => {
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
-  const [alertFlag, setAlertFlag] = useState(false);
+const Login = ({onLogin}) => {
+const [userId, setUserId] = useState('');
+const [password, setPassword] = useState('');
+const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+const handleSubmit = (event) => {
+  event.preventDefault();
+ 
+  if (userId.trim() === '' || password.trim() === '') {
+    alert('사용자 이름과 비밀번호를 입력해주세요.');
+    return;
+  }
+  onLogin(userId);
+  // setAlertFlag(true);
+  // setTimeout(() => {
+  //   onLogin(userId);
+  //   // setAlertFlag(false);
+  // }, 1500);
+};
 
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+const handleTogglePassword = () => {
+  setShowPassword(!showPassword);
+};
 
-    if (userId.trim() === '' || password.trim() === '') {
-      alert('사용자 이름과 비밀번호를 입력해주세요.');
-      return;
-    }
-
-    setAlertFlag(true);
-    setTimeout(() => {
-      onLogin(userId);
-      setAlertFlag(false);
-    }, 1500);
-  };
-
-  const Copyright = (props) => (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://www.hyundailivart.co.kr">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-
-  const theme = createTheme();
-
-  return (
-    <ThemeProvider theme={theme}>
-      {alertFlag && (
-        <Alert className={styles.alert} icon={<CheckIcon fontSize="inherit" />} severity="success">
-          로그인에 성공하셨습니다!
-        </Alert>
-      )}
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box className={styles.container}>
-          <Avatar className={styles.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate className={styles.form}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="아이디"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="비밀번호"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className={styles.submit}
-            >
-              Sign In
-            </Button>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
-  );
-}
+return (
+  <div className={styles.container}>
+    <div className={styles.logo}>
+      <img src="logo.png" alt="Logo" />
+    </div>
+    <div className={styles.loginBox}>
+      <h2>Welcome back <span role="img" aria-label="wave">👋</span></h2>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.inputGroup}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            required
+          />
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="password">Password</label>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={handleTogglePassword}
+          >
+            <span role="img" aria-label="toggle visibility">👁️</span>
+          </button>
+        </div>
+        <div className={styles.options}>
+          <label>
+            <input type="checkbox" id="keep-logged-in" />
+            Keep me logged in
+          </label>
+          <a href="#" className={styles.forgotPassword}>Forgot password?</a>
+        </div>
+        <button type="submit" className={styles.signIn}>Sign in</button>
+        <div className={styles.socialLogin}>
+          <p>OR</p>
+          <div className={styles.socialButtons}>
+            <button className={`${styles.google} ${styles.socialButton}`}>G</button>
+            <button className={`${styles.facebook} ${styles.socialButton}`}>f</button>
+            <button className={`${styles.apple} ${styles.socialButton}`}></button>
+          </div>
+        </div>
+        <div className={styles.register}>
+          <p>Not a member yet? <a href="#">Register now</a></p>
+        </div>
+      </form>
+    </div>
+    <footer>
+      <p>Made with <a href="#">Yisily</a></p>
+    </footer>
+  </div>
+);
+};
 
 export default Login;
+
+
+

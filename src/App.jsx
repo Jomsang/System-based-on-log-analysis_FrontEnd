@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
 import LoginScreen from './views/login/index';
 import ChatScreen from './views/chatScreen/index';
+import Header from './views/common/Header';
 import { getMessage } from './apis/aiApi';
+import AppRoute from 'AppRoute';
 
-const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  
-
-  const handleLogin = async (user) => {
-    setLoggedIn(true);
-    setUsername(user);
-    await getMessage();
-  };
+const App = (props) => {
 
   return (
-    <div className="app">
-      {!loggedIn ? (
-        <LoginScreen onLogin={handleLogin} />
-      ) : (
-        <ChatScreen username={username} />
-      )}
-    </div>
+    // <div className="app">
+    //   <Header />
+    //   {!loggedIn ? (
+    //     <LoginScreen onLogin={handleLogin} />
+    //   ) : (
+    //     <ChatScreen username={username} />
+    //   )}
+    // </div>
+    <AppRoute/>
   );
 };
 
