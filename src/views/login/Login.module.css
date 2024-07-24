@@ -1,30 +1,154 @@
-/* Login.module.css */
-.container {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .avatar {
-    margin: 1px;
-    background-color: var(--secondary-main);
-  }
-  
-  .form {
-    width: 100%; /* Fix IE 11 issue. */
-    margin-top: 1px;
-  }
-  
-  .submit {
-    margin-top: 3px;
-    margin-bottom: 2px;
-  }
-  
-  .alert {
-    margin-bottom: 1rem;
-  }
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
 
-  .test {
-    math-depth: 1rem;
-  }
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.logo img {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: calc(100% - 40px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-group .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+}
+
+.options input {
+  margin-right: 5px;
+}
+
+.options .forgot-password {
+  color: #6a1b9a;
+  text-decoration: none;
+}
+
+.sign-in {
+  width: 100%;
+  padding: 10px;
+  background-color: #6a1b9a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.social-login {
+  margin: 20px 0;
+}
+
+.social-login p {
+  margin: 10px 0;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.social-buttons button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-buttons .google {
+  background-color: #db4437;
+  color: #fff;
+}
+
+.social-buttons .facebook {
+  background-color: #4267b2;
+  color: #fff;
+}
+
+.social-buttons .apple {
+  background-color: #000;
+  color: #fff;
+}
+
+.register p {
+  margin: 10px 0;
+}
+
+.register a {
+  color: #6a1b9a;
+  text-decoration: none;
+}
+
+footer {
+  margin-top: 20px;
+}
+
+footer p {
+  font-size: 12px;
+  color: #aaa;
+}
+
+footer a {
+  color: #6a1b9a;
+  text-decoration: none;
+}
