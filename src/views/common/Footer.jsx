@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({onLogOut}) => {
   return (
     <div>
-      <p>푸터</p>
+      <p onClick={onLogOut}>임시 로그아웃(클릭하면 로그아웃)</p>
     </div>
   );
 };

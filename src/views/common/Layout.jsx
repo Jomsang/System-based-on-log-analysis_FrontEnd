@@ -3,7 +3,8 @@ import styles from 'views/common/Layout.module.css'; // CSS 모듈 임포트
 import Header from 'views/common/Header';
 import Footer from 'views/common/Footer';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, onLogOut}) => {
+
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
@@ -13,7 +14,7 @@ const Layout = ({ children }) => {
         {children}
       </main>
       <footer className={styles.footer}>
-        <Footer />
+        <Footer onLogOut={onLogOut} />
       </footer>
     </div>
   );
