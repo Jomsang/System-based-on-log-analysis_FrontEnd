@@ -34,11 +34,11 @@ return (
       <h2>Welcome back <span role="img" aria-label="wave">👋</span></h2>
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="id">ID</label>
           <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
+            type="id"
+            id="id"
+            placeholder="Enter your ID"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             required
