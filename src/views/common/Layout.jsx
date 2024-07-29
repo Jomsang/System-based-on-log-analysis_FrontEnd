@@ -8,13 +8,13 @@ const Layout = ({ children, onLogOut}) => {
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
-        <Header />
+        <Header onLogOut={onLogOut}/>
       </header>
       <main className={styles.main}>
         {children}
       </main>
       <footer className={styles.footer}>
-        <Footer onLogOut={onLogOut} />
+        <Footer />
       </footer>
     </div>
   );

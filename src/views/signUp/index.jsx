@@ -14,8 +14,6 @@ const handleSignUp = (event) => {
     return;
   }
 
-  
-
 };
 
 return (

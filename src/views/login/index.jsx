@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import {  useNavigate, Navigate  } from "react-router-dom";
 import styles from './Login.module.css';
 
 const Login = ({onLogin}) => {
 const [userId, setUserId] = useState('');
 const [password, setPassword] = useState('');
 const [showPassword, setShowPassword] = useState(false);
+const navigate = useNavigate();
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -25,13 +27,20 @@ const handleTogglePassword = () => {
   setShowPassword(!showPassword);
 };
 
+const handleSginUp = async () => {
+  setUserId('');
+  setPassword('');
+  setShowPassword(false);
+  navigate('/signUp');
+};
+
 return (
   <div className={styles.container}>
     <div className={styles.logo}>
-      <img src="logo.png" alt="Logo" />
+      <img src="/image/LIVART.JPG" alt="Logo" />
     </div>
     <div className={styles.loginBox}>
-      <h2>Welcome back <span role="img" aria-label="wave">👋</span></h2>
+      <h3>Welcome <span role="img" aria-label="wave">👋</span></h3>
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="id">ID</label>
@@ -70,22 +79,11 @@ return (
           <a href="#" className={styles.forgotPassword}>Forgot password?</a>
         </div>
         <button type="submit" className={styles.signIn}>Sign in</button>
-        <div className={styles.socialLogin}>
-          <p>OR</p>
-          <div className={styles.socialButtons}>
-            <button className={`${styles.google} ${styles.socialButton}`}>G</button>
-            <button className={`${styles.facebook} ${styles.socialButton}`}>f</button>
-            <button className={`${styles.apple} ${styles.socialButton}`}></button>
-          </div>
-        </div>
         <div className={styles.register}>
-          <p>Not a member yet? <a href="#">Register now</a></p>
+          <p>Not a member yet? <a href="" onClick={handleSginUp}>Register now</a></p>
         </div>
       </form>
     </div>
-    <footer>
-      <p>Made with <a href="#">Yisily</a></p>
-    </footer>
   </div>
 );
 };
