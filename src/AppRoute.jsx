@@ -19,13 +19,13 @@ const AppRoute = (props) => {
     const navigate = useNavigate();
 
     const handleLogin = async (user) => {
-        setLogon(true);
-        navigate('/chat');
+      setLogon(true);
+      navigate('/chat');
     };
 
-    const handleLogout = async () => {
-      setLogon(false);
-      navigate('/');
+  const handleLogout = async () => {
+    setLogon(false);
+    navigate('/');
   };
 
 
@@ -60,7 +60,7 @@ const AppRoute = (props) => {
             :
           //비로그인 시 화면(로그인, 회원가입)
           <Routes>
-            <Route path="/signUp" element={<PublicRoute logOn={logOn} restricted={false} element={<SignUp />} />} />
+              <Route path="/signUp" element={<PublicRoute logOn={logOn} restricted={false} element={<SignUp />} />} />
               <Route path="/login" element={<PublicRoute logOn={logOn} restricted={true} element={<Login onLogin={handleLogin} />} />} />
               {/* 비로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 /login 리다이렉트 */}
               <Route path="*" element={<Navigate to="/login" />} />

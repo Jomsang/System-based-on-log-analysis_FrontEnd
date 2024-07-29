@@ -1,57 +1,57 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  /* display: flex; */
-  /* justify-content: center;
-  align-items: center; */
-  /* height: 100vh; */
-  margin: 0;
-}
-
 .container {
-  /* width: 100%; */
-  max-width: 400px;
-  margin: 0 auto;
+  width: 400px;
+  max-width: 100%;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   background-color: #fff;
   text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .logo img {
-  width: 50px;
+  width: 100px;
   margin-bottom: 20px;
 }
 
-.login-box h2 {
+.loginBox h2 {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
 }
 
-.input-group {
+.inputGroup {
   margin-bottom: 15px;
   position: relative;
 }
 
-.input-group label {
+.inputGroup label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+  text-align: left;
 }
 
-.input-group input {
-  width: calc(100% - 40px);
-  padding: 10px;
+.inputGroup input {
+  width: 100%;
+  padding: 10px 10px 10px 0px;
+  /* padding-left: 40px;  */
   border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: #f9f9f9;
 }
 
-.input-group .toggle-password {
+.inputGroup input::placeholder {
+  color: #ccc;
+}
+
+.inputGroup .togglePassword {
   position: absolute;
-  top: 50%;
-  right: 10px;
+  top: 65%;
+  right: 1px;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -74,81 +74,28 @@ body {
   margin-right: 5px;
 }
 
-.options .forgot-password {
-  color: #6a1b9a;
+.options .forgotPassword {
+  color: #752ba3;
   text-decoration: none;
 }
 
-.sign-in {
+.signIn {
   width: 100%;
   padding: 10px;
-  background-color: #6a1b9a;
+  background-color: #752ba3;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.social-login {
-  margin: 20px 0;
-}
-
-.social-login p {
-  margin: 10px 0;
-}
-
-.social-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.social-buttons button {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.social-buttons .google {
-  background-color: #db4437;
-  color: #fff;
-}
-
-.social-buttons .facebook {
-  background-color: #4267b2;
-  color: #fff;
-}
-
-.social-buttons .apple {
-  background-color: #000;
-  color: #fff;
-}
-
 .register p {
   margin: 10px 0;
+  font-size: 12px;
 }
 
 .register a {
-  color: #6a1b9a;
+  color: #752ba3;
   text-decoration: none;
 }
 
-footer {
-  margin-top: 20px;
-}
-
-footer p {
-  font-size: 12px;
-  color: #aaa;
-}
-
-footer a {
-  color: #6a1b9a;
-  text-decoration: none;
-}

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Header.module.css';
 
 
-const Header = () => {
+const Header = ({ onLogOut}) => {
   return (
     <header className={styles.container}>
     <div className={styles.logo}>
@@ -20,7 +20,7 @@ const Header = () => {
     </div>
     <div className={styles.icons}>
       <img src="/image/bucket.JPG" alt="Cart" />
-      <div className={styles.userProfile}>
+      <div className={styles.userProfile} onClick={onLogOut}>
         <img src="/image/user.JPG" alt="User Profile" />
       </div>
     </div>
