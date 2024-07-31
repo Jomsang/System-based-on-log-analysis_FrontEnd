@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LoginScreen from './views/login/index';
 import ChatScreen from './views/chatScreen/index';
+import ModelList from './views/modelList/modelList';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -16,7 +17,7 @@ const App = () => {
   return (
     <div className="app">
       {!loggedIn ? (
-        <LoginScreen onLogin={handleLogin} />
+        <ModelList username={username} />
       ) : (
         <ChatScreen username={username} />
       )}
