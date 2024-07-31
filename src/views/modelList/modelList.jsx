@@ -31,6 +31,30 @@ const ModelList = () => {
       description: '이거 살거면 다른 소파를 사겠다! 거의 200만원!!',
       imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRv4_DnCahgWm1PJt5hpdZLksFCMgsiMwTIEPg4KIlucDOTl7QcSYykNBxVRaIAk2RDaup8Ru2IyrifJqkx46a6eDw-iqSK1lqXCxuGR1tq0hOrf8OMaf9W4g&usqp=CAc',
       href: 'https://www.hyundailivart.co.kr/p/P200168513?la_gc=TR10200705877&la_src=sa&la_cnfg=7332966&gad_source=1&gclid=Cj0KCQjwwae1BhC_ARIsAK4JfrxwsUhVCDUI4OFUU0xQQJwXexWWdUHUG-gZGiQ_1yoaIUXnCdDAVzQaAgz_EALw_wcB'
+    },
+    {
+      id: 4,
+      name: '리바트 식탁',
+      price: '255000',
+      description: '효범이가 사주면 좋을 것 같은 식탁',
+      imageUrl: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSQMz4vq-Rdc3dW3B_bTnGJBB6YEZsLIfRM8azPmvPffdeemrFpouVywfzClzloFV4QSF2QNkiR3yxHJeY6MaA9cRxpzjRFK0XJlVJCRN8f&usqp=CAc',
+      href: 'https://www.hyundailivart.co.kr/p/P100026616?la_gc=TR10200705877&la_src=sa&la_cnfg=7332966&gad_source=1&gclid=Cj0KCQjwwae1BhC_ARIsAK4JfrxiZCfHNwboTnOVhCuwPH82NSvhyo8Zt0wYqUYtDm9-jyDMr2o15LEaAnmNEALw_wcB'
+    },
+    {
+      id: 5,
+      name: '리바트 붙박이장',
+      price: '958000',
+      description: '붙박이장 이거 안이쁜거 같은데 누가 쓰나?',
+      imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTOpl1NmAT-m8hVYk39LVszhv72YUtWwIJIJnH9erBEpQUmo0VShqm5WmGLaNgbYwiTRraZKH9hu2xE1X32gncF44DVWJqo2pXMAV70VhYv&usqp=CAc',
+      href: 'https://www.hyundailivart.co.kr/p/P200172915?la_gc=TR10200705877&la_src=sa&la_cnfg=7332966&gad_source=1&gclid=Cj0KCQjwwae1BhC_ARIsAK4Jfrx6jUuv_Ommb0-Qhz7Tubb3lujIvLxM5SbBgT127-kj_MrdxoUrUBUaAidLEALw_wcB'
+    },
+    {
+      id: 6,
+      name: '리바트 현관장',
+      price: '1688000',
+      description: '와... 가격 후덜덜하네...',
+      imageUrl: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQw-gj68lKuhEsC_hAzJRWSocFgDzO2zqdTzB_TiPdFg3JdqLk6LQP32OrIuirgwZGtFiH4T6ObQJVwXD7kgUA9A2Lf9j8E_hES1cdmooIB-Q_Q5fZu4NVQgA&usqp=CAc',
+      href: 'https://www.hyundailivart.co.kr/p/P200158824?la_gc=TR10200705877&la_src=sa&la_cnfg=7332966&gad_source=1&gclid=Cj0KCQjwwae1BhC_ARIsAK4JfrzWUp2R8eQrV5V4yj_0oIxPnCAkCbzBMaFiJp7YAdCSuIsvyet7gfkaArtuEALw_wcB'
     }
   ];
 
