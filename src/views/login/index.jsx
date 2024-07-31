@@ -40,7 +40,7 @@ return (
       <img src="/image/LIVART.JPG" alt="Logo" />
     </div>
     <div className={styles.loginBox}>
-      <h3>Welcome <span role="img" aria-label="wave">👋</span></h3>
+      {/* <h3>Welcome <span role="img" aria-label="wave">👋</span></h3> */}
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="id">ID</label>
