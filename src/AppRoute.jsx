@@ -2,12 +2,12 @@ import {  Router, Route, Routes, useNavigate, Navigate  } from "react-router-dom
 // import PrivateRoute from 'views/common/PrivateRoute';
 import PublicRoute from 'views/common/PublicRoute';
 import Login from "views/login";
+import Chat from "views/chat";
 import SignUp from "views/signUp";
 import Layout from 'views/common/Layout';
 // import ChatScreen from 'views/chatScreen';
 import ModelList from 'views/modelList/modelList';
 import Error from 'views/common/Error';
-import Chat from 'views/chat';
 import React, { useState, useEffect } from 'react';
 
 const AppRoute = (props) => {

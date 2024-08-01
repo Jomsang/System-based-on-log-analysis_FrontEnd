@@ -6,6 +6,7 @@ const Sidebar = ({chats, onSelectChat }) => {
 
   return (
     <div className={styles.sidebar}>
+      <div className={styles.sidebarTitle}>My Chatbots</div>
       <div className={styles.sidebarList}>
           {chats.map((chat) => (
               <p className={styles.sidebarElement} key={chat.id} onClick={() => onSelectChat(chat.id)}>
@@ -13,6 +14,8 @@ const Sidebar = ({chats, onSelectChat }) => {
               </p>
           ))}
       </div>
+      <hr className={styles.sidebarHr}></hr>
+      <div className={styles.sidebarTitle}>Recent Chats</div>
     </div>
   );
 };
