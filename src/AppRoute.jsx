@@ -5,6 +5,7 @@ import Login from "views/login";
 import SignUp from "views/signUp";
 import Layout from 'views/common/Layout';
 import ChatScreen from 'views/chatScreen';
+import ModelList from 'views/modelList/modelList';
 import Error from 'views/common/Error';
 import React, { useState, useEffect } from 'react';
 
@@ -49,6 +50,7 @@ const AppRoute = (props) => {
                   <Routes>
                     <Route path="/chat" element={<ChatScreen />} />
                     <Route path="/error" element={<Error />} />
+                    <Route path="/modelList" element={<ModelList />} />
 
                     {/* 로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 error페이지 리다이렉트 */}
                     <Route path="*" element={<Navigate to="/error" />} />
