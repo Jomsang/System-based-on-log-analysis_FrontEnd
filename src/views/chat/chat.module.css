@@ -1,0 +1,104 @@
+.app {
+
+}
+
+.chatContaner {
+
+    background-color: #f9f9f9; /* 배경색을 흰색으로 설정합니다. */
+    display: flex;
+    padding: 10px 50px 50px 0px;
+}
+
+.sidebar {
+
+    background: #f9f9f9;
+    overflow-y: auto;
+    flex: 1;
+    height: calc(100vh-50px);
+    position: sticky;
+    border-radius: 16px;
+    top:50px;
+
+}
+
+.topbar{
+    
+
+}
+
+.chatBox {
+    height: 100vh;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 14px 24px rgba(0, 0, 0, 0.13);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    overflow-y: auto;
+    
+    
+}
+
+.sidebarElement {
+    align-self: flex-end;
+    color: #070000;
+    padding: 10px 15px;
+    border-radius: 16px 16px 0 16px;
+    pointer-events: auto;
+}
+
+.sidebarElement:hover{
+    background: #f129ff;
+}
+
+.messagesList, .sidebarList {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.userMessage, .aiMessage {
+    margin-bottom: 20px;
+    max-width: 80%;
+}
+
+.userMessage {
+    align-self: flex-end;
+    background: #2979ff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 16px 16px 0 16px;
+}
+
+.aiMessage {
+    align-self: flex-start;
+    background: #f0f0f0;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 16px 16px 16px 0;
+}
+
+.messageForm {
+    border-top: 1px solid #f0f0f0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.messageInput {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 16px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.sendButton {
+    padding: 10px 20px;
+    border-radius: 16px;
+    border: none;
+    background-color: #2979ff;
+    color: #fff;
+    cursor: pointer;
+}
