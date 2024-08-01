@@ -1,0 +1,37 @@
+.footerBottom {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 1%;
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+.footerBottomLeft {
+    display: flex;
+    align-items: center;
+    margin-left: 2%;
+}
+
+.footerBottomLeftt select {
+    margin-right: 20px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.footerBottomRight {
+    display: flex;
+    align-items: center;
+    margin-right: 2%;
+}
+
+.footerBottomRight a {
+    margin-left: 15px;
+    color: #333;
+    font-size: 16px;
+}
+
+.footerBottomRight a:hover {
+    color: #000;
+}
