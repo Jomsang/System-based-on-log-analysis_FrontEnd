@@ -16,6 +16,9 @@ const handleSignUp = (event) => {
     return;
   }
 
+  alert('회원가입이 완료되었습니다!.!');
+  navigate('/login');
+
 };
 
 const handleSignIn = (event) => {
@@ -41,10 +44,10 @@ return (
         <div className={styles.formContainer}>
           <h2>Create an account</h2>
           <form>
-            <input type="text" placeholder="Full name" className={styles.inputField} />
-            <input type="email" placeholder="Email" className={styles.inputField} />
-            <input type="password" placeholder="Password" className={styles.inputField} />
-            <button type="submit" className={styles.signUpButton}>Sign up</button>
+            <input type="text" placeholder="Full name" className={styles.inputField} value={newName} onChange={(e) => setNewName(e.target.value)} />
+            <input type="id" placeholder="ID" className={styles.inputField} value={newId} onChange={(e) => setNewId(e.target.value)}/>
+            <input type="password" placeholder="Password" className={styles.inputField} value={newPassword} onChange={(e) => setNewPassword(e.target.value)}/>
+            <button type="submit" className={styles.signUpButton} onClick={handleSignUp}>Sign up</button>
           </form>
           <div className={styles.signInLink}>
             Already have an account? <a href="" onClick={handleSignIn}>Sign in</a>
