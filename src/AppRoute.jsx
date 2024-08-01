@@ -4,25 +4,29 @@ import PublicRoute from 'views/common/PublicRoute';
 import Login from "views/login";
 import SignUp from "views/signUp";
 import Layout from 'views/common/Layout';
-import ChatScreen from 'views/chatScreen';
+// import ChatScreen from 'views/chatScreen';
 import ModelList from 'views/modelList/modelList';
 import Error from 'views/common/Error';
+import Chat from 'views/chat';
 import React, { useState, useEffect } from 'react';
 
 const AppRoute = (props) => {
+
+  const getInitialLogInState = () => {
+    const savedState = localStorage.getItem('logOn');
+    return savedState === null ? false : JSON.parse(savedState);
+  };
+
     
-    const getInitialLogInState = () => {
-      const savedState = localStorage.getItem('logOn');
-      return savedState === null ? false : JSON.parse(savedState);
-    };
+  const [logOn, setLogon] = useState(getInitialLogInState);
+  const showChat = false; // ChatScreen 컴포넌트를 보여줄지 결정하는 상태 변수
+  const navigate = useNavigate();
 
-    const [logOn, setLogon] = useState(getInitialLogInState);
-    const navigate = useNavigate();
 
-    const handleLogin = async (user) => {
-      setLogon(true);
-      navigate('/chat');
-    };
+  const handleLogin = async (user) => {
+    setLogon(true);
+    navigate('/chat');
+  };
 
   const handleLogout = async () => {
     setLogon(false);
@@ -43,12 +47,14 @@ const AppRoute = (props) => {
         {logOn ?
           //로그인 성공 시 사용 가능한 화면들
           <Routes>
+            {/* 채팅 창은 헤더, 푸터 안 나타나게 처리 */}
+            <Route path="/chat" element={<Chat />} />
             <Route
               path="*" 
               element={
                 <Layout onLogOut={handleLogout}>
                   <Routes>
-                    <Route path="/chat" element={<ChatScreen />} />
+                    
                     <Route path="/error" element={<Error />} />
                     <Route path="/modelList" element={<ModelList />} />
 
@@ -57,7 +63,9 @@ const AppRoute = (props) => {
                   </Routes>
                 </Layout>
               }
+              
             />
+            
           </Routes>
             :
           //비로그인 시 화면(로그인, 회원가입)
