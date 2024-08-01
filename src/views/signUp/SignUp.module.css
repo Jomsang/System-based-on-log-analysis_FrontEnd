@@ -1,0 +1,136 @@
+.container {
+    display: flex;
+    height: 100vh;
+    background-color: white;
+  }
+  
+  .leftSection {
+    flex: 1;
+    padding: 50px 0px 200px 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .welcome {
+    color: #444;
+  }
+  
+  .welcome h1 {
+    font-size: 36px;
+    margin: 0;
+  }
+  
+  .welcome h2 {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  
+  .welcome p {
+    font-size: 16px;
+    color: #888;
+  }
+  
+  .rightSection {
+    flex: 1;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+  }
+  
+  .formContainer {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .formContainer h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .signUpButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #6a0dad;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .signUpButton:hover {
+    background-color: #5a0cac;
+  }
+  
+  .socialSignUp {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .socialSignUp p {
+    margin-bottom: 10px;
+  }
+  
+  .socialButtons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .socialButtons button {
+    margin: 0 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .googleButton {
+    background-color: #db4437;
+    color: white;
+  }
+  
+  .facebookButton {
+    background-color: #3b5998;
+    color: white;
+  }
+  
+  .appleButton {
+    background-color: #000;
+    color: white;
+  }
+  
+  .signInLink {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .signInLink a {
+    color: #6a0dad;
+    text-decoration: none;
+  }
+  
+  .signInLink a:hover {
+    text-decoration: underline;
+  }
+  
