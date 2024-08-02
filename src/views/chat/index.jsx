@@ -18,26 +18,51 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
 
     const [activeChat, setActiveChat] = useState(null);
+    
+    const addChatRoom = () => {
+        const newChatId = chats.length + 1;
+        const newChat = {
+            id: newChatId,
+            name: `Chat ${newChatId}`,
+            messages: [],
+        };
+        setChats([...chats, newChat]);
+        console.log(chats);
+    };
+
 
     const handleSendMessage = (message) => {
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            { text: message, isUser: true },
-            {
-                text: `Your message is: "${message}"`,
-                isUser: false,
-                isTyping: true,
-                id: Date.now()
-            }
-        ]);
+        if (activeChat != null) {
+            setChats((prevChats) => {
+                return prevChats.map((chat) => {
+                    if (chat.id === activeChat) {
+                        return {
+                            ...chat,
+                            messages: [
+                                ...chat.messages,
+                                { text: message, isUser: true },
+                                {
+                                    text: `Your message is: "${message}"`,
+                                    isUser: false,
+                                    isTyping: true,
+                                    id: Date.now()
+                                }
+                            ]
+                        };
+                    }
+                    return chat;
+                });
+            });
+        }
     };
 
     const handleSelectChat = (chatId) => {
-      const selectedChat = chats.find((chat) => chat.id === chatId);
-      if (selectedChat) {
-          setMessages(selectedChat.messages);
-      }
-  };
+        const selectedChat = chats.find((chat) => chat.id === chatId);
+        if (selectedChat) {
+            setMessages(selectedChat.messages);
+            setActiveChat(chatId);
+        }
+    };
 
     const handleEndTyping = (id) => {
         setMessages((prevMessages) =>
@@ -61,7 +86,7 @@ const Chat = () => {
 
     return (
       <div className ={styles.app}>
-            <div><Topbar/></div>
+            <div><Topbar onAddChatRoom={addChatRoom}/></div>
             <div className ={styles.chatContaner}>
                 <Sidebar chats={chats} onSelectChat={handleSelectChat}/>
                 <div className={styles.chatBox}>
@@ -133,7 +158,8 @@ const MessageForm = ({ onSendMessage }) => {
                 className={styles.messageInput}
             />
             <button type="submit" className={styles.sendButton}>
-                Send
+                <img src = "image/chatSend.png" height="40px" width="40px"/>
+                
             </button>
         </form>
     );

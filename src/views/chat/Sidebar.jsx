@@ -9,9 +9,13 @@ const Sidebar = ({chats, onSelectChat }) => {
       <div className={styles.sidebarTitle}>My Chatbots</div>
       <div className={styles.sidebarList}>
           {chats.map((chat) => (
-              <p className={styles.sidebarElement} key={chat.id} onClick={() => onSelectChat(chat.id)}>
-                  {chat.name}
-              </p>
+              <div className={styles.sidebarElement} key={chat.id} onClick={() => onSelectChat(chat.id)}>
+                  <img src = "image/chatAvatar.png"
+                    alt = ""
+                    className= {styles.ChatRoomAvartar}>
+                  </img>
+                  <div className= {styles.sidebarElementName}>{chat.name}</div>
+              </div>
           ))}
       </div>
       <hr className={styles.sidebarHr}></hr>
