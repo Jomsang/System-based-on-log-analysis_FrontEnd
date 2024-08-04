@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  background-color: #f9f9f9; /* 배경색은 원하는대로 설정 */
+  max-width: 1200px; /* 최대 너비를 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background: #fff; /* 흰색 배경 */
+  border-radius: 8px; /* 둥근 모서리 */
+}
+
+.category img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px 8px 0 0; /* 이미지 상단 둥근 모서리 */
+  cursor: pointer; /* 커서가 손가락 모양으로 변경 */
+}
+
+.category p {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}

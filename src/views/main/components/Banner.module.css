@@ -1,0 +1,60 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1200px; /* 최대 너비를 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  height: 500px; /* 디자인에 맞게 조정 */
+  display: flex;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out, left 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* 이미지가 잘리지 않고 배너를 꽉 채우도록 설정 */
+}
+
+.active {
+  left: 0;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.inactive {
+  left: 100%;
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.buttons {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover,
+.activeButton {
+  background: rgba(255, 255, 255, 0.9);
+}
