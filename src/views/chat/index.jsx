@@ -17,6 +17,8 @@ const Chat = () => {
 
     const [messages, setMessages] = useState([]);
 
+    const [recentChats, setRecentChats] = useState([]);
+
     const [activeChat, setActiveChat] = useState(null);
     
     const addChatRoom = () => {
@@ -32,34 +34,66 @@ const Chat = () => {
 
 
     const handleSendMessage = (message) => {
-        if (activeChat != null) {
+        // 현재 타이핑 중인 메시지가 있는지 확인
+        const isTypingExists = messages.some(msg => msg.isTyping);
+        if (activeChat != null && !isTypingExists) {
+            // 새로운 메시지 생성
+            const newUserMessage = { text: message, isUser: true };
+            const newAIResponse = {
+                text: `Your message is: "${message}"`,
+                isUser: false,
+                isTyping: true,
+                id: Date.now()
+            };
+    
+            // chats 상태 업데이트
             setChats((prevChats) => {
-                return prevChats.map((chat) => {
+                const updatedChats = prevChats.map((chat) => {
                     if (chat.id === activeChat) {
                         return {
                             ...chat,
-                            messages: [
-                                ...chat.messages,
-                                { text: message, isUser: true },
-                                {
-                                    text: `Your message is: "${message}"`,
-                                    isUser: false,
-                                    isTyping: true,
-                                    id: Date.now()
-                                }
-                            ]
+                            messages: [...chat.messages, newUserMessage, newAIResponse]
                         };
                     }
                     return chat;
                 });
+                
+                // 현재 채팅 찾기
+                const currentChat = updatedChats.find(chat => chat.id === activeChat);
+    
+                // 최근 채팅 업데이트
+                setRecentChats((prevRecentChats) => {
+                    //const updatedRecentChats = prevRecentChats.filter(chat => chat.id !== activeChat);
+                    return [currentChat, ...recentChats].slice(0, 5); // 최근 5개만 유지
+                });
+                console.log(recentChats)
+                return updatedChats;
             });
+    
+            // messages 상태 업데이트
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                newUserMessage,
+                newAIResponse
+            ]);
+
+        }else if (isTypingExists) {
+            // 타이핑 중이면 경고 메시지 출력 (예시)
+            alert("Please wait until the current message is finished typing.");
         }
     };
 
     const handleSelectChat = (chatId) => {
         const selectedChat = chats.find((chat) => chat.id === chatId);
+
         if (selectedChat) {
-            setMessages(selectedChat.messages);
+
+            // 메시지 상태에서 isTyping 속성 업데이트
+            const updatedMessages = selectedChat.messages.map((msg) => ({
+                ...msg,
+                isTyping: msg.isTyping ? false : msg.isTyping
+            }));
+            setMessages(updatedMessages);
             setActiveChat(chatId);
         }
     };
@@ -70,6 +104,9 @@ const Chat = () => {
                 msg.id === id ? { ...msg, isTyping: false } : msg
             )
         );
+
+
+        
         setCurrentTypingId(null);
     };
 
@@ -88,7 +125,7 @@ const Chat = () => {
       <div className ={styles.app}>
             <div><Topbar onAddChatRoom={addChatRoom}/></div>
             <div className ={styles.chatContaner}>
-                <Sidebar chats={chats} onSelectChat={handleSelectChat}/>
+                <Sidebar chats={chats} onSelectChat={handleSelectChat} recentChats = {recentChats}/>
                 <div className={styles.chatBox}>
                     <MessageList
                         messages={messages}
@@ -126,7 +163,7 @@ const Message = ({
     return (
         <div className={isUser ? styles.userMessage : styles.aiMessage}>
             {isTyping && currentTypingId === id ? (
-                <Typing speed={50} onFinishedTyping={() => onEndTyping(id)}>
+                <Typing speed={200} onFinishedTyping={() => onEndTyping(id)}>
                     <p>
                         <b>AI</b>: {text}
                     </p>

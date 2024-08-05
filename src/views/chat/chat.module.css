@@ -37,6 +37,14 @@
     cursor: pointer;
 }
 
+.RecentChatLogo {
+    height: 40px;
+    width: 40px; 
+    padding: 0 3px;
+    border: none;
+    cursor: pointer;
+}
+
 .sidebarList {
     display: flex;
     flex-direction: column;
@@ -205,5 +213,6 @@
     color: #fbf4f4;
     padding: 10px 10px;
     border-radius: 16px 16px 16px 16px;
+    border: none;
     cursor: pointer;
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './chat.module.css';
 
-const Sidebar = ({chats, onSelectChat }) => {
+const Sidebar = ({chats, onSelectChat,recentChats }) => {
   
 
   return (
@@ -20,6 +20,19 @@ const Sidebar = ({chats, onSelectChat }) => {
       </div>
       <hr className={styles.sidebarHr}></hr>
       <div className={styles.sidebarTitle}>Recent Chats</div>
+      <div className={styles.sidebarList}>
+        {recentChats.map((chat) => (
+          <p className={styles.sidebarElement} key={chat.id} onClick={() => onSelectChat(chat.id)}>
+            <img src = "image/chatRecent.png"
+                    alt = ""
+                    className= {styles.RecentChatLogo}>
+            </img>
+            <div className= {styles.sidebarElementName}>
+             {chat.messages[chat.messages.length - 2].text}
+             </div>
+          </p>
+        ))}
+      </div>
     </div>
   );
 };
