@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Banner from "./components/Banner";
 import Category from "./components/Category";
-import ProductSection from "./components/ProductSection";
+import BestSelection from "./components/BestSelection";
 //import styles from "./Main.module.css";
 
 const main = () => {
@@ -9,7 +9,7 @@ const main = () => {
     <div>
       <Banner />
       <Category />
-      <ProductSection />
+      <BestSelection />
     </div>
   );
 };
