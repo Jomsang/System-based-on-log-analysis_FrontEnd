@@ -2,6 +2,52 @@
 
 }
 
+.WelcomeContainer{
+
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    overflow-y: auto;
+    cursor: pointer;display: flex;
+    flex-direction: column;
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.WelcomeTitle{
+    color: #080000;
+    border: none;
+    cursor: pointer;
+    margin: 20px 100px 20px 20px;
+    text-align: center;
+    
+}
+
+.WelcomeMessage{
+    background-color: #fff;
+    color: #080000;
+    padding: 20px 100px 20px 20px;
+    border-radius: 16px 16px 16px 16px;
+    margin: 20px 100px 20px 20px;
+    border: none;
+    cursor: pointer;
+
+}
+
+
+.MainChatLogo{
+    height: 100px;
+    width: 100px; 
+    padding: 0 3px;
+    border: 1px;
+    border-radius: 50px 50px 50px 50px;
+    background-color: #2979ff;
+    cursor: pointer;
+    margin: 20px 100px 20px 20px;
+}
+
 .sidebarTitle{
     font-size: 0.9rem;
     color:#999;
@@ -22,12 +68,18 @@
     color: #fbf4f4;
 }
 
+.sidebarElement.selected {
+    background-color: #871db8;
+    color: #fbf4f4;
+  }
 
 .sidebarElementName{
     font-weight: bold;
     align-items: center;
-    padding: 10px ;
+    padding: 15px ;
 }
+
+
 
 .ChatRoomAvartar {
     height: 40px;

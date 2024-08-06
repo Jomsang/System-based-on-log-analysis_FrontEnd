@@ -6,11 +6,11 @@ import Topbar from "./Topbar.jsx";
 import { Container } from "@mui/material";
 
 const Chat = () => {
-
+    
     const [chats, setChats] = useState([
-        { id: 1, name: 'Chat 1', messages: [{ text: 'Hello', isUser: false }] },
-        { id: 2, name: 'Chat 2', messages: [{ text: 'Hi', isUser: false }] },
-        { id: 3, name: 'Chat 3', messages: [{ text: 'HiHiHi', isUser: false }] },
+        { id: 1, name: 'Chat 1', messages: [{text: 'hihi', isUser: true}, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
+        { id: 2, name: 'Chat 2', messages: [{ text: 'Hi', isUser: true }, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
+        { id: 3, name: 'Chat 3', messages: [{ text: 'HiHiHi', isUser: true }, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
       ]);
 
     const [currentTypingId, setCurrentTypingId] = useState(null);
@@ -20,18 +20,21 @@ const Chat = () => {
     const [recentChats, setRecentChats] = useState([]);
 
     const [activeChat, setActiveChat] = useState(null);
-    
+
+    const [selectedChatId, setSelectedChatId] = useState(null);
+
     const addChatRoom = () => {
         const newChatId = chats.length + 1;
         const newChat = {
             id: newChatId,
             name: `Chat ${newChatId}`,
-            messages: [{ text: 'What can I do for you' + newChatId, isUser: false }],
+            messages: []//[{ text: 'What can I do for you' + newChatId, isUser: false }],
         };
         setChats([...chats, newChat]);
         setMessages(newChat.messages);
+        setSelectedChatId(newChatId);
         setActiveChat(newChatId);
-        console.log(chats);
+        
     };
 
 
@@ -47,7 +50,7 @@ const Chat = () => {
                 isTyping: true,
                 id: Date.now()
             };
-    
+
             // chats 상태 업데이트
             setChats((prevChats) => {
                 const updatedChats = prevChats.map((chat) => {
@@ -59,44 +62,103 @@ const Chat = () => {
                     }
                     return chat;
                 });
-                
-                // 현재 채팅 찾기
+
                 const currentChat = updatedChats.find(chat => chat.id === activeChat);
-    
-                // 최근 채팅 업데이트
+
                 setRecentChats((prevRecentChats) => {
-                    //const updatedRecentChats = prevRecentChats.filter(chat => chat.id !== activeChat);
-                    return [currentChat, ...recentChats].slice(0, 5); // 최근 5개만 유지
+                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter(chat => chat.id !== activeChat)];
+                    return updatedRecentChats.slice(0, 5);
                 });
-                console.log(recentChats)
+
                 return updatedChats;
             });
-    
+
             // messages 상태 업데이트
             setMessages((prevMessages) => [
                 ...prevMessages,
                 newUserMessage,
                 newAIResponse
             ]);
-
-        }else if (isTypingExists) {
+    
+            
+    
+        } else if (activeChat != null && isTypingExists) {
             // 타이핑 중이면 경고 메시지 출력 (예시)
             alert("Please wait until the current message is finished typing.");
+            return;
+    
+        } else if (activeChat == null && !isTypingExists) {
+            // 채팅방형성
+            const newChatId = chats.length + 1;
+            const newChat = {
+                id: newChatId,
+                name: `Chat ${newChatId}`,
+                messages: [] // [{ text: 'What can I do for you' + newChatId, isUser: false }],
+            };
+            setChats([...chats, newChat]);
+            
+            // 새로운 메시지 생성
+            const newUserMessage = { text: message, isUser: true };
+            const newAIResponse = {
+                text: `Your message is: "${message}"`,
+                isUser: false,
+                isTyping: true,
+                id: Date.now()
+            };
+
+            // chats 상태 업데이트
+            setChats((prevChats) => {
+                const updatedChats = prevChats.map((chat) => {
+                    if (chat.id === newChatId) {
+                        return {
+                            ...chat,
+                            messages: [...chat.messages, newUserMessage, newAIResponse]
+                        };
+                    }
+                    return chat;
+                });
+    
+                const currentChat = updatedChats.find(chat => chat.id === newChatId);
+
+                setRecentChats((prevRecentChats) => {
+                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter(chat => chat.id !== newChatId)];
+                    return updatedRecentChats.slice(0, 5);
+                });
+
+                return updatedChats;
+            });
+
+             // messages 상태 업데이트
+             setMessages((prevMessages) => [
+                ...prevMessages,
+                newUserMessage,
+                newAIResponse
+            ]);
+
+            // 새로운 채팅방을 활성 채팅방으로 설정
+            setSelectedChatId(newChatId);
+            setActiveChat(newChatId);
         }
     };
 
     const handleSelectChat = (chatId) => {
+
+        const isTypingExists = messages.some(msg => msg.isTyping);
+
+        if (isTypingExists) {
+            // 타이핑 중이면 경고 메시지 출력 (예시)
+            alert("Please wait until the current message is finished typing.");
+            return;
+    
+        } 
         const selectedChat = chats.find((chat) => chat.id === chatId);
+        setSelectedChatId(chatId);
 
         if (selectedChat) {
-
-            // 메시지 상태에서 isTyping 속성 업데이트
-            const updatedMessages = selectedChat.messages.map((msg) => ({
-                ...msg,
-                isTyping: msg.isTyping ? false : msg.isTyping
-            }));
-            setMessages(updatedMessages);
+            setMessages(selectedChat.messages);
             setActiveChat(chatId);
+            console.log(chats);
+            console.log(messages);
         }
     };
 
@@ -105,6 +167,18 @@ const Chat = () => {
             prevMessages.map((msg) =>
                 msg.id === id ? { ...msg, isTyping: false } : msg
             )
+        );
+        
+        setChats((prevChats) =>
+            prevChats.map((chat) => {
+                if (chat.id === activeChat) {
+                    const updatedMessages = chat.messages.map((msg) =>
+                        msg.id === id ? { ...msg, isTyping: false } : msg
+                    );
+                    return { ...chat, messages: updatedMessages };
+                }
+                return chat;
+            })
         );
 
 
@@ -127,14 +201,44 @@ const Chat = () => {
       <div className ={styles.app}>
             <div><Topbar onAddChatRoom={addChatRoom}/></div>
             <div className ={styles.chatContaner}>
-                <Sidebar chats={chats} onSelectChat={handleSelectChat} recentChats = {recentChats}/>
+                <Sidebar chats={chats} onSelectChat={handleSelectChat} recentChats = {recentChats} selectedChatId = {selectedChatId}/>
                 <div className={styles.chatBox}>
-                    <MessageList
-                        messages={messages}
-                        currentTypingId={currentTypingId}
-                        onEndTyping={handleEndTyping}
-                    />
-                    <MessageForm onSendMessage={handleSendMessage} />
+                    {messages.length > 0 ? (
+                            <>
+                                <MessageList
+                                    messages={messages}
+                                    currentTypingId={currentTypingId}
+                                    onEndTyping={handleEndTyping}
+                                />
+                            </>
+                        ) : (
+                            <div className={styles.WelcomeContainer}>
+                                <img src = "image/mainChatLogo.png"
+                                     alt = ""
+                                     className= {styles.MainChatLogo}>
+                                </img>
+
+                                <div className={styles.WelcomeTitle}>
+                                    <b>HelpWise</b>
+                                    <p>I'm Your customer support, ready to answser<br></br>your questions</p>
+                                </div>
+
+                                <div className={styles.WelcomeMessage}>
+                                Welcome! Please select a chat room or start a new chat?
+                                </div>
+                                <div className={styles.WelcomeMessage}>
+                                Welcome! Please select a chat room or start a new chat?
+                                </div>
+                                <div className={styles.WelcomeMessage}>
+                                Welcome! Please select a chat room or start a new chat?
+                                </div>
+                            </div>
+                            
+
+                        )}
+                        <>
+                        <MessageForm onSendMessage={handleSendMessage} />
+                        </>
                 </div>
             </div>
       </div>
@@ -165,7 +269,7 @@ const Message = ({
     return (
         <div className={isUser ? styles.userMessage : styles.aiMessage}>
             {isTyping && currentTypingId === id ? (
-                <Typing speed={200} onFinishedTyping={() => onEndTyping(id)}>
+                <Typing speed={5} onFinishedTyping={() => onEndTyping(id)}>
                     <p>
                         <b>AI</b>: {text}
                     </p>

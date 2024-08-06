@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './chat.module.css';
 
-const Sidebar = ({chats, onSelectChat,recentChats }) => {
+const Sidebar = ({chats, onSelectChat, recentChats, selectedChatId }) => {
   
 
   return (
@@ -9,7 +9,7 @@ const Sidebar = ({chats, onSelectChat,recentChats }) => {
       <div className={styles.sidebarTitle}>My Chatbots</div>
       <div className={styles.sidebarList}>
           {chats.map((chat) => (
-              <div className={styles.sidebarElement} key={chat.id} onClick={() => onSelectChat(chat.id)}>
+              <div className={`${styles.sidebarElement} ${selectedChatId === chat.id ? styles.selected : ''}`} key={chat.id} onClick={() => onSelectChat(chat.id)}>
                   <img src = "image/chatAvatar.png"
                     alt = ""
                     className= {styles.ChatRoomAvartar}>
@@ -28,7 +28,7 @@ const Sidebar = ({chats, onSelectChat,recentChats }) => {
                     className= {styles.RecentChatLogo}>
             </img>
             <div className= {styles.sidebarElementName}>
-             {chat.messages[chat.messages.length - 2].text}
+             {chat.messages[chat.messages.length-2].text}
              </div>
           </p>
         ))}
