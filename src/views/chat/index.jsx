@@ -26,9 +26,11 @@ const Chat = () => {
         const newChat = {
             id: newChatId,
             name: `Chat ${newChatId}`,
-            messages: [],
+            messages: [{ text: 'What can I do for you' + newChatId, isUser: false }],
         };
         setChats([...chats, newChat]);
+        setMessages(newChat.messages);
+        setActiveChat(newChatId);
         console.log(chats);
     };
 
