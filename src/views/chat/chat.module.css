@@ -57,15 +57,21 @@
 .sidebarElement {
     display: flex;
     color: #070000;
-    padding: 20px 5%;
-    border-radius: 40px 40px 40px 40px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 40px;
     pointer-events: auto;
+    
 }
 
 .sidebarElement:active,
 .sidebarElement:hover{
     background-color: #871db8;
     color: #fbf4f4;
+}
+
+.sidebarElement:hover .chatDropdown {
+    display: block;
 }
 
 .sidebarElement.selected {
@@ -76,10 +82,8 @@
 .sidebarElementName{
     font-weight: bold;
     align-items: center;
-    padding: 15px ;
+    padding: 10px ;
 }
-
-
 
 .ChatRoomAvartar {
     height: 40px;
@@ -97,6 +101,21 @@
     cursor: pointer;
 }
 
+.chatDropDownLogo{
+    height: 30px;
+    width: 30px; 
+    border: none;
+    cursor: pointer;
+}
+
+.chatDropdown{
+    display: none;
+    background: none;
+    padding: 5px 50px;
+    cursor: pointer;
+}
+
+
 .sidebarList {
     display: flex;
     flex-direction: column;
@@ -109,7 +128,7 @@
 
     background: #fff;
     overflow-y: auto;
-    flex: 1;
+    width:310px;
     height: 80vh;
     position: sticky;
     top:50px;
@@ -120,6 +139,32 @@
     padding: 20px;
     color: #555;
 }
+.sidebarElementContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    transform: translateY(-50%);
+}
+
+.dropdownItem {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
 
 .sidebarHr{
     width: 90%;

@@ -162,6 +162,16 @@ const Chat = () => {
         }
     };
 
+    const handleDeleteChat = (chatId) => {
+        setChats((prevChats) => prevChats.filter(chat => chat.id !== chatId));
+        setRecentChats((prevRecentChats) => prevRecentChats.filter(chat => chat.id !== chatId));
+        if (activeChat === chatId) {
+          setActiveChat(null);
+          setMessages([]);
+          setSelectedChatId(null);
+        }
+      };
+
     const handleEndTyping = (id) => {
         setMessages((prevMessages) =>
             prevMessages.map((msg) =>
@@ -201,7 +211,7 @@ const Chat = () => {
       <div className ={styles.app}>
             <div><Topbar onAddChatRoom={addChatRoom}/></div>
             <div className ={styles.chatContaner}>
-                <Sidebar chats={chats} onSelectChat={handleSelectChat} recentChats = {recentChats} selectedChatId = {selectedChatId}/>
+                <Sidebar chats={chats} onSelectChat={handleSelectChat} onDeleteChat={handleDeleteChat} recentChats = {recentChats} selectedChatId = {selectedChatId}/>
                 <div className={styles.chatBox}>
                     {messages.length > 0 ? (
                             <>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styles from './chat.module.css';
 
-const Sidebar = ({chats, onSelectChat, recentChats, selectedChatId }) => {
+const Sidebar = ({chats, onSelectChat, onDeleteChat, recentChats, selectedChatId }) => {
   
+  const [view, setView] = useState(false);
 
   return (
     <div className={styles.sidebar}>
@@ -15,6 +16,15 @@ const Sidebar = ({chats, onSelectChat, recentChats, selectedChatId }) => {
                     className= {styles.ChatRoomAvartar}>
                   </img>
                   <div className= {styles.sidebarElementName}>{chat.name}</div>
+                  <ul className={styles.chatDropdown} onClick={() => {setView(!view)}} >
+                    <img src = "image/chatDropDown.png"
+                      alt = ""
+                      className= {styles.chatDropDownLogo}>
+                    </img>
+                    {view && <Dropdown onDeleteChat = {onDeleteChat} chatId = {chat.id}/>}
+                  </ul>
+                  
+                  
               </div>
           ))}
       </div>
@@ -36,5 +46,15 @@ const Sidebar = ({chats, onSelectChat, recentChats, selectedChatId }) => {
     </div>
   );
 };
+
+const Dropdown = ({onDeleteChat, chatId}) => {
+
+  return (
+    <>
+    <li onClick={() => onDeleteChat(chatId)}>삭제</li>
+    </>
+  );
+}
+
 
 export default Sidebar;
