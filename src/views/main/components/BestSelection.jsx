@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./BestSelection.module.css";
 
 const products = [
   {
     id: 1,
+    category: "소파",
     img: "https://static.hyundailivart.co.kr/upload_mall/goods/P200134639/GM43588581_img.jpg/dims/resize/x320/cropcenter/320x320/autorotate/on/optimize",
     brand: "리바트",
     name: "오브니 4인 패브릭 소파 화이트",
@@ -12,6 +13,7 @@ const products = [
   },
   {
     id: 2,
+    category: "침대/매트리스",
     img: "https://static.hyundailivart.co.kr/upload_mall/goods/P100025857/GM40711335_img.jpg/dims/resize/x320/cropcenter/320x320/autorotate/on/optimize",
     brand: "리바트",
     name: "필로시 슈퍼싱글 침대 프레임 수납형",
@@ -20,6 +22,7 @@ const products = [
   },
   {
     id: 3,
+    category: "소파",
     img: "https://static.hyundailivart.co.kr/upload_mall/goods/P100034262/GM40376508_img.jpg/dims/resize/x320/cropcenter/320x320/autorotate/on/optimize",
     brand: "리바트",
     name: "몰리세 4인 패브릭 리클라이너 소파 (3색)",
@@ -28,6 +31,7 @@ const products = [
   },
   {
     id: 4,
+    category: "침대/매트리스",
     img: "https://static.hyundailivart.co.kr/upload_mall/goods/P200100765/GM42042260_img.jpg/dims/resize/x320/cropcenter/320x320/autorotate/on/optimize",
     brand: "리바트",
     name: "에스테틱 호텔형 침대 프레임 (8종)",
@@ -36,25 +40,42 @@ const products = [
   },
 ];
 
+const categories = [
+  "전체",
+  "소파",
+  "식탁",
+  "침대/매트리스",
+  "옷장/드레스룸",
+  "수납장/서랍장",
+];
+
 function BestSection() {
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+
+  const filteredProducts =
+    selectedCategory === "전체"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
+
   return (
     <div className={styles.bestSection}>
       <h2 className={styles.title}>BEST</h2>
       <p className={styles.subtitle}>리바트 가구 베스트 제품을 만나보세요</p>
       <div className={styles.categories}>
-        <button className={styles.categoryButton}>전체</button>
-        <button className={styles.categoryButton}>소파</button>
-        <button className={styles.categoryButton}>거실장/거실테이블</button>
-        <button className={styles.categoryButton}>식탁</button>
-        <button className={styles.categoryButton}>침대/매트리스</button>
-        <button className={styles.categoryButton}>옷장/드레스룸</button>
-        <button className={styles.categoryButton}>화장대/거울/스툴</button>
-        <button className={styles.categoryButton}>수납장/서랍장</button>
-        <button className={styles.categoryButton}>의자</button>
-        <button className={styles.categoryButton}>키즈/주니어</button>
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`${styles.categoryButton} ${
+              selectedCategory === category ? styles.active : ""
+            }`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
       </div>
       <div className={styles.productList}>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <div key={product.id} className={styles.productItem}>
             <img
               src={product.img}
