@@ -3,25 +3,33 @@ import styles from './chat.module.css';
 
 const Sidebar = ({chats, onSelectChat, onDeleteChat, recentChats, selectedChatId }) => {
   
-  const [view, setView] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarTitle}>My Chatbots</div>
       <div className={styles.sidebarList}>
           {chats.map((chat) => (
-              <div className={`${styles.sidebarElement} ${selectedChatId === chat.id ? styles.selected : ''}`} key={chat.id} onClick={() => onSelectChat(chat.id)}>
+              <div className={`${styles.sidebarElement} ${selectedChatId === chat.id ? styles.selected : ''}`} key={chat.id} >
                   <img src = "image/chatAvatar.png"
                     alt = ""
                     className= {styles.ChatRoomAvartar}>
                   </img>
-                  <div className= {styles.sidebarElementName}>{chat.name}</div>
-                  <ul className={styles.chatDropdown} onClick={() => {setView(!view)}} >
+                  <div className= {styles.sidebarElementName} onClick={() => onSelectChat(chat.id)}>{chat.name}</div>
+                  <ul className={styles.chatDropdown}  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
                     <img src = "image/chatDropDown.png"
                       alt = ""
                       className= {styles.chatDropDownLogo}>
                     </img>
-                    {view && <Dropdown onDeleteChat = {onDeleteChat} chatId = {chat.id}/>}
+                    {dropdownVisible && <Dropdown onDeleteChat = {onDeleteChat} chatId = {chat.id}/>}
                   </ul>
                   
                   
@@ -51,7 +59,7 @@ const Dropdown = ({onDeleteChat, chatId}) => {
 
   return (
     <>
-    <li onClick={() => onDeleteChat(chatId)}>삭제</li>
+    <li className= {styles.chatDropdownList} onClick={() => onDeleteChat(chatId)}>삭제</li>
     </>
   );
 }
