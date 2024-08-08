@@ -1,0 +1,89 @@
+.bestSection {
+  padding: 20px;
+  text-align: center;
+  max-width: 1200px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.categoryButton {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  color: #333;
+}
+
+.categoryButton:hover,
+.categoryButton:focus {
+  background: #ddd;
+  border-radius: 20px;
+}
+
+.productList {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.productItem {
+  width: calc(25% - 10px); /* 아이템 간 간격을 고려한 너비 */
+  margin-bottom: 20px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.productItem:not(:nth-child(4n)) {
+  margin-right: 10px; /* 아이템 간 간격 */
+}
+
+.productImage {
+  width: 100%;
+  height: auto;
+  cursor: pointer; /* 커서 모양 변경 */
+}
+
+.productInfo {
+  padding: 10px;
+}
+
+.productBrand {
+  display: inline-block;
+  background: #eee;
+  padding: 3px 6px;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.productPrice {
+  font-size: 16px;
+  color: #d9534f;
+}
