@@ -48,6 +48,7 @@ const AppRoute = (props) => {
               element={
                 <Layout onLogOut={handleLogout}>
                   <Routes>
+                    {/* chat화면 헤더 푸터 안 보이게 작업하기 */}
                     <Route path="/chat" element={<ChatScreen />} />
                     <Route path="/error" element={<Error />} />
                     <Route path="/modelList" element={<ModelList />} />
@@ -58,6 +59,7 @@ const AppRoute = (props) => {
                 </Layout>
               }
             />
+            
           </Routes>
             :
           //비로그인 시 화면(로그인, 회원가입)
