@@ -1,1 +1,61 @@
 /* modelList.module.css */
+.container {
+    width: 100%;
+}
+
+.coverModel {
+    margin: 20px 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+}
+
+@media (min-width:1280px){
+    .coverModel {
+        margin: 20px 80px;
+        display: grid;
+        grid-template-columns: repeat(4, 25%);
+    }
+}
+
+.defModel {
+    margin: 20px 40px;
+
+    .prdName {
+        font-size: large;
+    }
+
+    .prdPrice {
+        color:blueviolet
+    }
+    
+    .starBox {
+
+        .unfilled {
+            font-size: 2rem;
+            color: gray;
+        }
+        
+        .filled {
+            font-size:2rem;
+            color: gold;
+        }
+    }
+}
+
+
+
+.imgContainer {
+    position: relative;
+    height: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .overImg {
+        width:10%;
+        height:10%;
+        position: absolute;
+        top:0;
+        right:0;
+        color: red;
+    }
+}
