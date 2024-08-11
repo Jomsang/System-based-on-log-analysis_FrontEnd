@@ -1,13 +1,12 @@
 import React from 'react';
-import styles from './ModelDetail.module.css'; 
-// import { Style } from '@material-ui/icons';
+import styles from './BreadCrumb.module.css'; 
 
-function Breadcrumb() {
+const Breadcrumb = () => {
   return (
-    <nav className={styles.breadcrumb}>
-      <a href="/">Home</a> &gt; <a href="/shop">Shop</a> &gt; <a href="/shop/products-type">Products type</a> &gt; Detail
-    </nav>
+    <div className={styles.breadcrumb}>
+      <a href="/">Home</a> &gt; <a href="/shop">Shop</a> &gt; <a href="/products-type">Products type</a> &gt; Detail
+    </div>
   );
-}
+};
 
 export default Breadcrumb;

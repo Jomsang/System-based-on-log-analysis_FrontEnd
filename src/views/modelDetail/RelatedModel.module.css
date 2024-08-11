@@ -1,0 +1,36 @@
+.container{
+    margin-top: 40px;
+    gap: 10px;
+}
+
+.relatedModelList{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+
+.model{
+    border: '1px solid #ccc';
+    margin: '10px';
+    padding: '10px';
+    width: '200px' ;
+}
+
+.descSection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .currentPrice {
+    font-size: 30px;
+    color: #6a1b9a;
+    margin-right: 10px;
+  }
+  
+  .originalPrice {
+    font-size: 20px;
+    color: #b0b0b0;
+    text-decoration: line-through;
+  }
