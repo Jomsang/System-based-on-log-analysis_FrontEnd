@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './RelatedModel.module.css'
+import AddShoppingCart from '@mui/icons-material/AddShoppingCart';
 
 function Model({ product }) {
   const handleClick = (redirectUrl) => {
@@ -14,7 +15,7 @@ function Model({ product }) {
       <div className={styles.descSection}>
         <span className={styles.currentPrice}>$32</span>
         <span className={styles.originalPrice}>$42</span>
-        <div className='{styles.'></div>
+        <AddShoppingCart fontSize='medium' sx={{ ml: 24 }}></AddShoppingCart>
       </div>
     </div>
   );
