@@ -1,17 +1,21 @@
 import React from 'react';
-import Breadcrumb from './BreadCrumb';
-import ModelImages from './ModelImages';
-import ModelInfo from './ModelInfo';
+import BreadCrumb from './BreadCrumb';
+import ModelImages from './ModelImage';
+// import ModelInfo from './ModelInfo';
 import styles from './ModelDetail.module.css'; 
+import ProductInfo from './ProductInfo';
+import RelatedModel from './RelatedModel';
 
 const ModelDetail = () => {
   return (
     <div className={styles.modelDetail}>
-      {/* <h3>model Detail page</h3> */}
-      <Breadcrumb />
+      <BreadCrumb />
       <div className={styles.modelContent}>
         <ModelImages />
-        <ModelInfo />
+        <ProductInfo />
+      </div>
+      <div>
+        <RelatedModel />
       </div>
     </div>
   );
