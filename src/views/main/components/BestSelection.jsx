@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./BestSelection.module.css";
 
@@ -180,10 +180,11 @@ function BestSection() {
   const location = useLocation();
   const navigate = useNavigate();
   const nextId = useRef(1); // id 채번을 위한 useRef 사용
+  const scrollPosition = useRef(0);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 초기 제품 배열에 id를 추가하여 상태로 설정
     const productsWithIds = initialProducts.map((product) => ({
       ...product,
@@ -199,7 +200,15 @@ function BestSection() {
     setSelectedCategory(category);
   }, [location.search]);
 
+  useEffect(() => {
+    // 스크롤 위치를 복원
+    window.scrollTo(0, scrollPosition.current);
+  }, [products]);
+
   const handleCategoryChange = (category) => {
+    // 스크롤 위치 저장
+    scrollPosition.current = window.scrollY;
+
     setSelectedCategory(category);
     // 선택한 카테고리를 URL 쿼리 파라미터에 반영
     navigate(`?category=${category}`);
