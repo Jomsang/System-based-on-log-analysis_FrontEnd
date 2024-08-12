@@ -1,6 +1,6 @@
-import React, {  useEffect, useState } from "react";
+import React, {  useEffect } from "react";
 import styles from './Header.module.css';
-import { Router, Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Header = ({ onLogOut, logOn}) => {
@@ -11,11 +11,9 @@ const Header = ({ onLogOut, logOn}) => {
   };
 
   useEffect(() => {
-    console.log("props? : ",logOn)
+    console.log("Header props? : ", logOn);
   }, []);
   
-
-
   return (
     <header className={styles.container}>
     <div className={styles.logo}>
@@ -35,11 +33,17 @@ const Header = ({ onLogOut, logOn}) => {
       <img src="/image/bucket.JPG" alt="Cart" />
       <div className={styles.userProfile} >
         {logOn? 
+        <>
           <img className={styles.logProfile} src="/image/logout.png" alt="logout" onClick={onLogOut}/>
+          <img src="/image/user.JPG" alt="User Profile" />
+        </>
         : 
+        <>
           <img className={styles.logProfile} src="/image/login.png" alt="login" onClick={handleLogin}/>
+          <img src="/image/emptyUser.JPG" alt="User Profile" />
+        </>
         }
-        <img src="/image/user.JPG" alt="User Profile" />
+        
       </div>
     </div>
     </header>

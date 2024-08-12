@@ -1,7 +1,7 @@
 import styles from 'views/common/Layout.module.css'; // CSS 모듈 임포트
 import Header from 'views/common/Header';
 import Footer from 'views/common/Footer';
-import React, {  useEffect, useState } from "react";
+import React from "react";
 const Layout = ({ children, onLogOut, logOn}) => {
 
 

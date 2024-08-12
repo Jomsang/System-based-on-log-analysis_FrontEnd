@@ -15,12 +15,8 @@ const handleSubmit = (event) => {
     alert('사용자 이름과 비밀번호를 입력해주세요.');
     return;
   }
+  localStorage.setItem("logOn", true);
   onLogin(userId);
-  // setAlertFlag(true);
-  // setTimeout(() => {
-  //   onLogin(userId);
-  //   // setAlertFlag(false);
-  // }, 1500);
 };
 
 const handleTogglePassword = () => {
@@ -40,7 +36,6 @@ return (
       <img src="/image/LIVART.JPG" alt="Logo" />
     </div>
     <div className={styles.loginBox}>
-      {/* <h3>Welcome <span role="img" aria-label="wave">👋</span></h3> */}
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="id">ID</label>

@@ -1,31 +1,31 @@
-import { Router, Route, Routes, useNavigate, Navigate } from "react-router-dom";
-// import PrivateRoute from 'views/common/PrivateRoute';
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import PublicRoute from "views/common/PublicRoute";
 import Login from "views/login";
 import SignUp from "views/signUp";
 import Layout from "views/common/Layout";
-// import ChatScreen from 'views/chatScreen';
 import ModelList from "views/modelList/modelList";
 import ModelDetail from "views/modelDetail/modelDetail";
 import Error from "views/common/Error";
 import Chat from "views/chat";
-// import main from "views/main";
 import Main from "views/main";
 import React, { useState, useEffect } from "react";
 
 const AppRoute = (props) => {
   const getInitialLogInState = () => {
-    const savedState = localStorage.getItem("logOn");
-    return savedState === null ? false : JSON.parse(savedState);
+    let savedState = localStorage.getItem("logOn");
+    if (savedState === null) {
+      localStorage.setItem("logOn", JSON.stringify(false));
+      savedState = "false";
+    }
+    console.log('savedState? ', savedState);
+    return JSON.parse(savedState);
   };
 
-  const [logOn, setLogon] = useState(false);
-  const showChat = false; // ChatScreen 컴포넌트를 보여줄지 결정하는 상태 변수
+  const [logOn, setLogon] = useState(getInitialLogInState());
   const navigate = useNavigate();
 
   const handleLogin = async (user) => {
     setLogon(true);
-    localStorage.setItem("logOn", true);
     navigate("/mainLogIn");
   };
 
@@ -35,11 +35,10 @@ const AppRoute = (props) => {
     navigate("/mainLogOut");
   };
 
-  useEffect(() => {
-    // 상태값 출력
-    localStorage.setItem("logOn", JSON.stringify(logOn));
-    console.log("logOn: ", logOn);
-  }, [logOn]);
+  useEffect(() =>{
+    console.log("AppRoute storage logOn?", localStorage.getItem("logOn"));
+    console.log("AppRoute status logOn?", logOn);
+  });
 
   return (
     <>
@@ -48,7 +47,6 @@ const AppRoute = (props) => {
         //로그인 성공 시 사용 가능한 화면들
         <Routes>
           {/* 채팅 창은 헤더, 푸터 안 나타나게 처리 */} 
-          {/* 현재 chat 입력하면 안가짐 해갸ㅕㄹ해야함 */}
           <Route path="/chat" element={<Chat />} />
           <Route
             path="*"
@@ -85,7 +83,7 @@ const AppRoute = (props) => {
             element={
               <PublicRoute
                 logOn={logOn}
-                restricted={true}
+                restricted={false}
                 element={<Login onLogin={handleLogin} />}
               />
             }
@@ -95,13 +93,12 @@ const AppRoute = (props) => {
             <Layout logOn={logOn}>
               <PublicRoute
                   logOn={logOn}
-                  restricted={false}
+                  restricted={true}
                   element={<Main />}
                 />
             </Layout>
           } />
           {/* 비로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 /login 리다이렉트 */}
-          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
           <Route path="*" element={<Navigate to="/mainLogOut" />} />
         </Routes>
       )}
