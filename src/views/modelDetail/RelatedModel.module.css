@@ -1,3 +1,4 @@
+/*RelatedModel*/
 .container{
     margin-top: 40px;
     gap: 10px;
@@ -9,7 +10,7 @@
     gap: 10px;
 }
 
-
+/*Model*/
 .model{
     border: '1px solid #ccc';
     margin: '10px';
@@ -33,4 +34,8 @@
     font-size: 20px;
     color: #b0b0b0;
     text-decoration: line-through;
+  }
+
+  .cart {
+
   }
