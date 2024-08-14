@@ -6,9 +6,9 @@ import Topbar from "./Topbar.jsx";
 
 const Chat = () => {
     const [chats, setChats] = useState([
-        { id: 1, name: 'Chat 1', messages: [{text: 'hihi', isUser: true}, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
-        { id: 2, name: 'Chat 2', messages: [{ text: 'Hi', isUser: true }, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
-        { id: 3, name: 'Chat 3', messages: [{ text: 'HiHiHi', isUser: true }, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
+        { userId: 1234, chatId: 1, chatName: 'Chat 1', messages: [{textMessage: 'hihi11', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd11"', isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        { userId: 1234, chatId: 2, chatName: 'Chat 2', messages: [{textMessage: 'hihi22', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd22"', isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        { userId: 1234, chatId: 3, chatName: 'Chat 3', messages: [{textMessage: 'hihi33', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd33"', isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
     ]);
 
     const [currentTypingId, setCurrentTypingId] = useState(null);
@@ -20,8 +20,9 @@ const Chat = () => {
     const addChatRoom = () => {
         const newChatId = chats.length + 1;
         const newChat = {
-            id: newChatId,
-            name: `Chat ${newChatId}`,
+            userId: '1234',
+            chatId: newChatId,
+            chatName: `Chat ${newChatId}`,
             messages: []
         };
         setChats([...chats, newChat]);
@@ -30,20 +31,22 @@ const Chat = () => {
         setActiveChat(newChatId);
     };
 
-    const handleSendMessage = (message, isImage = false) => {
+    const handleSendMessage = (textMessage, imgMessage, isImage = false) => {
         const isTypingExists = messages.some((msg) => msg.isTyping);
         if (activeChat != null && !isTypingExists) {
-            const newUserMessage = { text: message, isUser: true, isImage };
+            const newUserMessage = {textMessage: textMessage, imgMessage: imgMessage, isUser: true, isImage: isImage, isTyping:false, messageId: Date.now() };
             const newAIResponse = {
-                text: `Your message is: "${message}"`,
+                textMessage: `Your message is: "${textMessage}"`,
+                imgMessage: imgMessage,
                 isUser: false,
+                isImage: false,
                 isTyping: true,
-                id: Date.now()
+                messageId: Date.now()
             };
 
             setChats((prevChats) => {
                 const updatedChats = prevChats.map((chat) => {
-                    if (chat.id === activeChat) {
+                    if (chat.chatId === activeChat) {
                         return {
                             ...chat,
                             messages: [...chat.messages, newUserMessage, newAIResponse]
@@ -52,10 +55,10 @@ const Chat = () => {
                     return chat;
                 });
 
-                const currentChat = updatedChats.find((chat) => chat.id === activeChat);
+                const currentChat = updatedChats.find((chat) => chat.chatId === activeChat);
 
                 setRecentChats((prevRecentChats) => {
-                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.id !== activeChat)];
+                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.chatId !== activeChat)];
                     return updatedRecentChats.slice(0, 5);
                 });
 
@@ -73,23 +76,27 @@ const Chat = () => {
         } else if (activeChat == null && !isTypingExists) {
             const newChatId = chats.length + 1;
             const newChat = {
-                id: newChatId,
-                name: `Chat ${newChatId}`,
+                userId: '1234',
+                chatId: newChatId,
+                chatName: `Chat ${newChatId}`,
                 messages: []
             };
             setChats([...chats, newChat]);
 
-            const newUserMessage = { text: message, isUser: true, isImage };
+            const newUserMessage = {textMessage: textMessage, imgMessage: imgMessage, isUser: true, isImage: isImage, isTyping:false, messageId: Date.now() };
             const newAIResponse = {
-                text: `Your message is: "${message}"`,
+                textMessage: `Your message is: "${textMessage}"`,
+                imgMessage: imgMessage,
                 isUser: false,
+                isImage: false,
                 isTyping: true,
-                id: Date.now()
+                messageId: Date.now()
             };
+
 
             setChats((prevChats) => {
                 const updatedChats = prevChats.map((chat) => {
-                    if (chat.id === newChatId) {
+                    if (chat.chatId === newChatId) {
                         return {
                             ...chat,
                             messages: [...chat.messages, newUserMessage, newAIResponse]
@@ -98,10 +105,10 @@ const Chat = () => {
                     return chat;
                 });
 
-                const currentChat = updatedChats.find((chat) => chat.id === newChatId);
+                const currentChat = updatedChats.find((chat) => chat.chatId === newChatId);
 
                 setRecentChats((prevRecentChats) => {
-                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.id !== newChatId)];
+                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.chatId !== newChatId)];
                     return updatedRecentChats.slice(0, 5);
                 });
 
@@ -127,7 +134,7 @@ const Chat = () => {
             return;
         }
 
-        const selectedChat = chats.find((chat) => chat.id === chatId);
+        const selectedChat = chats.find((chat) => chat.chatId === chatId);
         setSelectedChatId(chatId);
 
         if (selectedChat) {
@@ -139,8 +146,8 @@ const Chat = () => {
     };
 
     const handleDeleteChat = (chatId) => {
-        setChats((prevChats) => prevChats.filter(chat => chat.id !== chatId));
-        setRecentChats((prevRecentChats) => prevRecentChats.filter(chat => chat.id !== chatId));
+        setChats((prevChats) => prevChats.filter(chat => chat.chatId !== chatId));
+        setRecentChats((prevRecentChats) => prevRecentChats.filter(chat => chat.chatId !== chatId));
         
         if (activeChat === chatId) {
             setActiveChat(null);
@@ -154,15 +161,15 @@ const Chat = () => {
     const handleEndTyping = (id) => {
         setMessages((prevMessages) =>
             prevMessages.map((msg) =>
-                msg.id === id ? { ...msg, isTyping: false } : msg
+                msg.messageId === id ? { ...msg, isTyping: false } : msg
             )
         );
 
         setChats((prevChats) =>
             prevChats.map((chat) => {
-                if (chat.id === activeChat) {
+                if (chat.chatId === activeChat) {
                     const updatedMessages = chat.messages.map((msg) =>
-                        msg.id === id ? { ...msg, isTyping: false } : msg
+                        msg.messageId === id ? { ...msg, isTyping: false } : msg
                     );
                     return { ...chat, messages: updatedMessages };
                 }
@@ -179,7 +186,7 @@ const Chat = () => {
                 (msg) => !msg.isUser && msg.isTyping
             );
             if (nextTypingMessage) {
-                setCurrentTypingId(nextTypingMessage.id);
+                setCurrentTypingId(nextTypingMessage.messageId);
             }
         }
     }, [messages, currentTypingId]);
@@ -239,50 +246,57 @@ const MessageList = ({ messages, currentTypingId, onEndTyping }) => (
 );
 
 const Message = ({
-    text,
+    textMessage,
+    imgMessage,
     isUser,
-    isTyping,
-    id,
     isImage,
+    isTyping,
+    messageId,
     onEndTyping,
     currentTypingId
 }) => {
     return (
         <div className={isUser ? styles.userMessage : styles.aiMessage}>
-            {isTyping && currentTypingId === id ? (
-                <Typing speed={5} onFinishedTyping={() => onEndTyping(id)}>
+            {isTyping && currentTypingId === messageId ? (
+                <Typing speed={5} onFinishedTyping={() => onEndTyping(messageId)}>
                     <p>
-                        <b>AI</b>: {text}
+                        <b>AI</b>: {textMessage}
                     </p>
                 </Typing>
             ) : (
                 isImage ? (
                     <div>
+                        <div>
                         <b>{isUser ? "User" : "AI"}</b>:
-                        <img src={text} alt="user upload" className={styles.messageImage} />
+                        {textMessage}
+                        </div>
+                        <img src={imgMessage} alt="user upload" className={styles.messageImage} />
+                        
                     </div>
                 ) : (
                     <p>
-                        <b>{isUser ? "User" : "AI"}</b>: {text}
+                        <b>{isUser ? "User" : "AI"}</b>: {textMessage}
                     </p>
                 )
             )}
         </div>
     );
 };
-
 const MessageForm = ({ onSendMessage }) => {
     const [message, setMessage] = useState("");
     const [image, setImage] = useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (message) {
-            onSendMessage(message);
+        if (message && !image) {
+            onSendMessage(message, '', false);
         }
-        if (image) {
-            onSendMessage(image, true);
+        else if (!message && image) {
+            onSendMessage('image uploaded', image, true);
+        }else{
+            onSendMessage(message, image, true);
         }
+
         setMessage("");
         setImage(null);
     };
