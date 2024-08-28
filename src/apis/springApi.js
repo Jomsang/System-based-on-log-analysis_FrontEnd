@@ -16,10 +16,10 @@ export const getUser = async () => {
 export const doLogin = async (id, pw) => {
   try {
     const response = await axiosSpringApi.post('/usersJpa/login', {
-      username: id,
-      password: pw
+      userId: id,
+      passWord: pw
     });
-    console.log("응답 text", response.data);
+    console.log("doLogin 응답 text", response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching message:', error);
@@ -30,11 +30,13 @@ export const doLogin = async (id, pw) => {
 // 회원가입
 export const doNewUser = async (id, pw, name) => {
   try {
-    const response = await axiosSpringApi.post('/usersJpa/login', {
-      username: id,
-      password: pw
+    const response = await axiosSpringApi.post('/usersJpa/newUser', {
+      userId: id,
+      passWord: pw,
+      userName: name
+
     });
-    console.log("응답 text", response.data);
+    console.log("doNewUser 응답 text", response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching message:', error);

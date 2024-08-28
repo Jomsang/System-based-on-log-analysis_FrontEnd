@@ -39,6 +39,10 @@ const handleSginUp = async () => {
   navigate('/signUp');
 };
 
+const handleToMain =  () => {
+  navigate('/mainLogOut');
+};
+
 //테스트api
 const testApi = async () => {
   // await getUser();
@@ -47,7 +51,7 @@ const testApi = async () => {
 return (
   <div className={styles.container}>
     <div className={styles.logo}>
-      <img src="/image/LIVART.JPG" alt="Logo" />
+      <img onClick={handleToMain} src="/image/LIVART.JPG" alt="Logo" />
     </div>
     <div className={styles.loginBox}>
       <form onSubmit={handleSubmit}>
