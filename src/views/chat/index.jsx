@@ -7,9 +7,9 @@ import axios from 'axios';
 
 const Chat = () => {
     const [chats, setChats] = useState([
-        // { userId: 1234, chatId: 1, chatName: 'Chat 1', messages: [{textMessage: 'hihi11', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd11"', isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
-        // { userId: 1234, chatId: 2, chatName: 'Chat 2', messages: [{textMessage: 'hihi22', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd22"', isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
-        // { userId: 1234, chatId: 3, chatName: 'Chat 3', messages: [{textMessage: 'hihi33', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd33"', isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        // { userId: 1234, chatId: 1, chatName: 'Chat 1', messages: [{textMessage: 'hihi11', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd11"',"imgMessage": "",isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        // { userId: 1234, chatId: 2, chatName: 'Chat 2', messages: [{textMessage: 'hihi22', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd22"', "imgMessage": "",isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        // { userId: 1234, chatId: 3, chatName: 'Chat 3', messages: [{textMessage: 'hihi33', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd33"', "imgMessage": "",isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
     ]);
 
     const [currentTypingId, setCurrentTypingId] = useState(null);
