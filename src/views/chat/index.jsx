@@ -42,6 +42,20 @@ const Chat = () => {
         setActiveChat(newChatId);
     };
 
+    // 시간을 YYYYMMDDHHMMSSmmm 형식으로 변환하는 함수
+    const getFormattedTime = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const milliseconds = String(date.getMilliseconds()).padStart(3, '0'); // 밀리초는 3자리
+
+        return `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+    };
+
     const handleSendMessage = async (textMessage, imgMessage, isImage = false) => {
         const isTypingExists = messages.some((msg) => msg.isTyping);
         if (activeChat != null && !isTypingExists) {
@@ -51,7 +65,7 @@ const Chat = () => {
                 isUser: true,
                 isImage: isImage,
                 isTyping: false,
-                messageId: Date.now()
+                messageId: getFormattedTime()
             };
             const newAIResponse = {
                 textMessage: `Typing...`,
@@ -59,7 +73,7 @@ const Chat = () => {
                 isUser: false,
                 isImage: false,
                 isTyping: true,
-                messageId: Date.now()
+                messageId: getFormattedTime()
             };
 
             // 미리 메시지 업데이트: 새로운 메시지 목록을 만듦
@@ -88,7 +102,7 @@ const Chat = () => {
                     if (chat.chatId === activeChat) {
                         return chat.messages.map((msg) => {
                             if (msg.isTyping && !msg.isUser) {
-                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false };
+                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
                             }
                             return msg;
                         });
@@ -96,6 +110,8 @@ const Chat = () => {
                     return []; // 변경된 부분
                 }).flat(); // 중첩 배열을 평탄화
 
+                console.log(updatedMessages);
+                
                 // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
                 const finalChats = updatedChats.map((chat) => {
                     if (chat.chatId === activeChat) {
@@ -115,9 +131,7 @@ const Chat = () => {
                 const currentChat = finalChats.find((chat) => chat.chatId === activeChat);
                 console.log(currentChat);
                 if (currentChat) {
-                    await axios.post('http://localhost:8080/chatJpa/insertChatMessages', null, {
-                        chat: currentChat
-                    });
+                    await axios.post('http://localhost:8080/chatJpa/insertChatMessages', currentChat);
                     console.log('Messages saved successfully.');
                 }
             } catch (error) {
@@ -142,7 +156,7 @@ const Chat = () => {
                 isUser: true,
                 isImage: isImage,
                 isTyping: false,
-                messageId: Date.now()
+                messageId: getFormattedTime()
             };
             const newAIResponse = {
                 textMessage: `Typing...`,
@@ -150,19 +164,12 @@ const Chat = () => {
                 isUser: false,
                 isImage: false,
                 isTyping: true,
-                messageId: Date.now()
+                messageId: getFormattedTime()
             };
 
             // 미리 메시지 업데이트: 새로운 메시지 목록을 만듦
-            const updatedChats = chats.map((chat) => {
-                if (chat.chatId === activeChat) {
-                    return {
-                        ...chat,
-                        messages: [...chat.messages, newUserMessage, newAIResponse]
-                    };
-                }
-                return chat;
-            });
+            const insertChats = {...newChat, messages: [...messages, newUserMessage, newAIResponse]};
+            const updatedChats = [...chats, insertChats];
 
             // setChats와 setMessages로 상태 업데이트
             setChats(updatedChats);
@@ -176,20 +183,22 @@ const Chat = () => {
 
                 // AI 메시지 반영을 위해 메시지 업데이트
                 const updatedMessages = updatedChats.map((chat) => {
-                    if (chat.chatId === activeChat) {
+                    if (chat.chatId === newChatId) {
                         return chat.messages.map((msg) => {
                             if (msg.isTyping && !msg.isUser) {
-                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false };
+                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
                             }
                             return msg;
                         });
                     }
                     return []; // 변경된 부분
                 }).flat(); // 중첩 배열을 평탄화
+                console.log('******');
+                console.log(updatedMessages);
 
                 // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
                 const finalChats = updatedChats.map((chat) => {
-                    if (chat.chatId === activeChat) {
+                    if (chat.chatId === newChatId) {
                         return { ...chat, messages: updatedMessages };
                     }
                     return chat;
@@ -201,14 +210,13 @@ const Chat = () => {
                 // 상태 업데이트
                 setChats(finalChats);
                 setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
-
+                setActiveChat(newChatId);
+                setSelectedChatId(newChatId);
                 // **채팅방 전체 메시지를 저장하는 API 호출**
-                const currentChat = finalChats.find((chat) => chat.chatId === activeChat);
+                const currentChat = finalChats.find((chat) => chat.chatId === newChatId);
                 console.log(currentChat);
                 if (currentChat) {
-                    await axios.post('http://localhost:8080/chatJpa/insertChatMessages', null, {
-                        chat: currentChat
-                    });
+                    await axios.post('http://localhost:8080/chatJpa/insertChatMessages', currentChat);
                     console.log('Messages saved successfully.');
                 }
             } catch (error) {
