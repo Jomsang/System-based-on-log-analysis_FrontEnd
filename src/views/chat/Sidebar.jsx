@@ -16,6 +16,7 @@ const Sidebar = ({chats, onSelectChat, onDeleteChat, recentChats, selectedChatId
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarTitle}>My Chatbots</div>
+      <div className={styles.sidebarTitle}>My Chatbots</div>
       <div className={styles.sidebarList}>
           {chats.map((chat) => (
               <div className={`${styles.sidebarElement} ${selectedChatId === chat.id ? styles.selected : ''}`} key={chat.id} >
@@ -51,6 +52,8 @@ const Sidebar = ({chats, onSelectChat, onDeleteChat, recentChats, selectedChatId
           </p>
         ))}
       </div>
+      <hr className={styles.sidebarHr}></hr>
+      <div className={styles.sidebarTitle}>Recent Chats</div>
     </div>
   );
 };
