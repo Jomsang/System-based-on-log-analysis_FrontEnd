@@ -86,7 +86,12 @@ const Chat = () => {
                 }
                 return chat;
             });
-
+            
+            const currentChat = updatedChats.find((chat) => chat.chatId  === activeChat);
+            setRecentChats((prevRecentChats) => {
+                const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.chatId !== activeChat)];
+                return updatedRecentChats.slice(0, 5);
+            });
             // setChats와 setMessages로 상태 업데이트
             setChats(updatedChats);
             setMessages([...messages, newUserMessage, newAIResponse]);
@@ -102,7 +107,7 @@ const Chat = () => {
                     if (chat.chatId === activeChat) {
                         return chat.messages.map((msg) => {
                             if (msg.isTyping && !msg.isUser) {
-                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
+                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: true, messageId: getFormattedTime()};
                             }
                             return msg;
                         });
@@ -148,7 +153,6 @@ const Chat = () => {
                 chatName: `Chat ${newChatId}`,
                 messages: []
             };
-            setChats([...chats, newChat]);
 
             const newUserMessage = {
                 textMessage: textMessage,
@@ -171,9 +175,16 @@ const Chat = () => {
             const insertChats = {...newChat, messages: [...messages, newUserMessage, newAIResponse]};
             const updatedChats = [...chats, insertChats];
 
+            const currentChat = updatedChats.find((chat) => chat.chatId  === newChatId);
+            setRecentChats((prevRecentChats) => {
+                const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.chatId !== newChatId)];
+                return updatedRecentChats.slice(0, 5);
+            });
             // setChats와 setMessages로 상태 업데이트
             setChats(updatedChats);
             setMessages([...messages, newUserMessage, newAIResponse]);
+            setActiveChat(newChatId);
+            setSelectedChatId(newChatId);
 
             try {
                 // AI 메시지를 가져오기 위해 서버로 POST 요청
@@ -210,8 +221,6 @@ const Chat = () => {
                 // 상태 업데이트
                 setChats(finalChats);
                 setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
-                setActiveChat(newChatId);
-                setSelectedChatId(newChatId);
                 // **채팅방 전체 메시지를 저장하는 API 호출**
                 const currentChat = finalChats.find((chat) => chat.chatId === newChatId);
                 console.log(currentChat);
