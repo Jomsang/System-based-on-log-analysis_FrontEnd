@@ -197,7 +197,7 @@ const Chat = () => {
                     if (chat.chatId === newChatId) {
                         return chat.messages.map((msg) => {
                             if (msg.isTyping && !msg.isUser) {
-                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
+                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: true, messageId: getFormattedTime()};
                             }
                             return msg;
                         });
