@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styles from './chat.module.css';
-
+import { useNavigate } from 'react-router-dom';
 
 const Topbar = ({onAddChatRoom}) => {
-  
+  const navigate = useNavigate();
+  const goToBack = () => {
+    navigate(-1);
+  };
 
   return (
     <div className={styles.topbar}>
@@ -13,7 +16,7 @@ const Topbar = ({onAddChatRoom}) => {
                     alt = ""
                     className= {styles.logoImg}>
                 </img>
-                <span className={styles.logo}>Chatbot Builder</span>
+                <span className={styles.logo} onClick={goToBack}>Chatbot Builder</span>
                 </div>
               <div className={styles.topRight}>
                 <button className={styles.addChatRoom} onClick={onAddChatRoom}>+ Create Chatbot</button>

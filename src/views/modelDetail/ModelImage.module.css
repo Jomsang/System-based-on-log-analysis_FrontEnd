@@ -1,0 +1,64 @@
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+
+  .modelImage {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .modelImage img {
+    width: 100px;
+    height: 167px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .modelMainImg{
+    margin-left: 10px;
+    position: relative;
+  }
+
+  .modelMainImg img{
+    width: 600px;
+    height: 700px;
+  }
+  .bestSeller {
+    /* background-color: #e0f7fa;
+    color: #00796b;
+    padding: 4px 8px;
+    font-size: 18px;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+    position: absolute; */
+
+    position: absolute;
+    top: 3%;
+    left: 77%;
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* .imgContainer {
+    position: relative;
+    height: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+  } */
+    /* .overImg {
+        width:10%;
+        height:10%;
+        position: absolute;
+        top:0;
+        right:0;
+        color: red;
+    } */

@@ -32,6 +32,7 @@
   font-size: 14px;
   margin: 5px;
   color: #333;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .categoryButton:hover,
@@ -40,23 +41,28 @@
   border-radius: 20px;
 }
 
+/* 선택된 카테고리 스타일 */
+.categoryButton.active {
+  background: #333; /* 배경색을 어두운 색으로 */
+  color: #fff; /* 텍스트를 흰색으로 변경 */
+  border-radius: 20px;
+}
+
 .productList {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 10px; /* 아이템 간의 간격을 설정 */
+  justify-content: flex-start; /* 좌측 정렬 */
 }
 
 .productItem {
-  width: calc(25% - 10px); /* 아이템 간 간격을 고려한 너비 */
+  flex: 1 1 calc(25% - 10px); /* 아이템 너비를 유연하게 설정 */
+  max-width: calc(25% - 10px); /* 최대 너비 설정 */
   margin-bottom: 20px;
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-}
-
-.productItem:not(:nth-child(4n)) {
-  margin-right: 10px; /* 아이템 간 간격 */
 }
 
 .productImage {
