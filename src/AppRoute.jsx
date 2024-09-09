@@ -26,12 +26,14 @@ const AppRoute = (props) => {
 
   const handleLogin = async (user) => {
     setLogon(true);
+    localStorage.setItem("userId", user);
     navigate("/mainLogIn");
   };
 
   const handleLogout = async () => {
     setLogon(false);
     localStorage.setItem("logOn", false);
+    localStorage.removeItem("userId");
     navigate("/mainLogOut");
   };
 
