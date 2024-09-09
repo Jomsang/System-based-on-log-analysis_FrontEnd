@@ -14,7 +14,7 @@ const Footer = () => {
           </select>
         </div>
         <div>
-          <span>© 2022 Brand, Inc. • Privacy • Terms • Sitemap</span>
+          <span>© 2024 Brand, Inc. • Privacy • Terms • Sitemap</span>
         </div>
         <div className={styles.footerBottomRight}>
           <a href="#"><i className="fab fa-facebook-f"></i></a>

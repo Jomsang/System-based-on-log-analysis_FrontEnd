@@ -51,7 +51,7 @@ const testApi = async () => {
 return (
   <div className={styles.container}>
     <div className={styles.logo}>
-      <img onClick={handleToMain} src="/image/LIVART.JPG" alt="Logo" />
+      <img onClick={handleToMain} src="/image/LIVART.JPG" alt="Logo" style={{ cursor: 'pointer' }}/>
     </div>
     <div className={styles.loginBox}>
       <form onSubmit={handleSubmit}>
