@@ -1,4 +1,4 @@
-import React from 'react';
+// import React, {useState} from 'react';
 import BreadCrumb from './BreadCrumb';
 import ModelImages from './ModelImage';
 // import ModelInfo from './ModelInfo';
@@ -7,6 +7,8 @@ import ProductInfo from './ProductInfo';
 import RelatedModel from './RelatedModel';
 
 const ModelDetail = () => {
+  
+
   return (
     <div className={styles.modelDetail}>
       <BreadCrumb />
@@ -18,6 +20,11 @@ const ModelDetail = () => {
         <RelatedModel />
       </div>
     </div>
+    // <div>
+    //   {posts.map(post=>(
+    //     <li>{post.mdlCd}</li>
+    //   ))}
+    // </div>
   );
 }
 

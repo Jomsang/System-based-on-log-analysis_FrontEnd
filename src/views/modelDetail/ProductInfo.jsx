@@ -19,20 +19,20 @@ const ProductInfo = () => {
       </p>
       <div className={styles.priceSection}>
         <span className={styles.currentPrice}>$32</span>
-        <span className={styles.originalPrice}>$42</span>
+        {/* <span className={styles.originalPrice}>$42</span> */}
       </div>
       <p className={styles.additionalInfo}>
         In ullamco labore mollit et exercitation fugiat exercitation minim ex sint ullamco exercitation amet officia mollit.
         Qui cillum pariatur in con.
       </p>
       <div className={styles.reviewInfo}>
-        <span className={styles.reviewCnt}>368</span> <span className={styles.reviewTxt}>reviews</span>  
+        {/* <span className={styles.reviewCnt}>368</span> <span className={styles.reviewTxt}>reviews</span>  
         <span className={styles.soldCnt}>823</span>  <span className={styles.soldTxt}>sold</span>  
-        <span className={styles.reviewStar}>☆☆☆☆☆</span><span className={styles.rating}>4.5</span>
+        <span className={styles.reviewStar}>☆☆☆☆☆</span><span className={styles.rating}>4.5</span> */}
       </div>
       <div className={styles.benefits}>
-        <p>✅ Free shipping on orders over $49USD</p>
-        <p>✅ Free + easy returns</p>
+        {/* <p>✅ Free shipping on orders over $49USD</p>
+        <p>✅ Free + easy returns</p> */}
       </div>
 
       <div className={styles.optionDiv}>
