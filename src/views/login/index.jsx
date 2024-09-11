@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {  useNavigate, Navigate  } from "react-router-dom";
+import {  useNavigate  } from "react-router-dom";
 import styles from './Login.module.css';
+import {  doLogin } from 'apis/springApi';
 
 const Login = ({onLogin}) => {
 const [userId, setUserId] = useState('');
@@ -8,19 +9,23 @@ const [password, setPassword] = useState('');
 const [showPassword, setShowPassword] = useState(false);
 const navigate = useNavigate();
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
   event.preventDefault();
  
   if (userId.trim() === '' || password.trim() === '') {
     alert('사용자 이름과 비밀번호를 입력해주세요.');
     return;
   }
-  onLogin(userId);
-  // setAlertFlag(true);
-  // setTimeout(() => {
-  //   onLogin(userId);
-  //   // setAlertFlag(false);
-  // }, 1500);
+
+  const successLogin = await doLogin(userId, password);
+
+  if(successLogin === 1){
+    localStorage.setItem("logOn", true);
+    onLogin(userId);    
+  } else {
+    alert('ID나 패스워드가 틀렸습니다.');
+  }
+
 };
 
 const handleTogglePassword = () => {
@@ -34,13 +39,21 @@ const handleSginUp = async () => {
   navigate('/signUp');
 };
 
+const handleToMain =  () => {
+  navigate('/mainLogOut');
+};
+
+//테스트api
+const testApi = async () => {
+  // await getUser();
+};
+
 return (
   <div className={styles.container}>
     <div className={styles.logo}>
-      <img src="/image/LIVART.JPG" alt="Logo" />
+      <img onClick={handleToMain} src="/image/LIVART.JPG" alt="Logo" style={{ cursor: 'pointer' }}/>
     </div>
     <div className={styles.loginBox}>
-      {/* <h3>Welcome <span role="img" aria-label="wave">👋</span></h3> */}
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="id">ID</label>
@@ -76,7 +89,7 @@ return (
             <input type="checkbox" id="keep-logged-in" />
             Keep me logged in
           </label>
-          <a href="#" className={styles.forgotPassword}>Forgot password?</a>
+          <a onClick={testApi}  className={styles.forgotPassword}>Forgot password?</a>
         </div>
         <button type="submit" className={styles.signIn}>Sign in</button>
         <div className={styles.register}>

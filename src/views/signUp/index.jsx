@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SignUp.module.css';
-import {  useNavigate, Navigate  } from "react-router-dom";
+import {  useNavigate  } from "react-router-dom";
+import {  doNewUser } from 'apis/springApi';
 
 const SignUp = () => {
 const [newName, setNewName] = useState('');
@@ -8,7 +9,7 @@ const [newId, setNewId] = useState('');
 const [newPassword, setNewPassword] = useState('');
 const navigate = useNavigate();
 
-const handleSignUp = (event) => {
+const handleSignUp = async (event) => {
   event.preventDefault();
  
   if (newName.trim() === '' || newId.trim() === '' || newPassword.trim() === '') {
@@ -16,9 +17,13 @@ const handleSignUp = (event) => {
     return;
   }
 
-  alert('회원가입이 완료되었습니다!.!');
-  navigate('/login');
-
+  const successSignUp = await doNewUser(newId, newPassword, newName);
+  if(successSignUp === 1){
+    alert('회원가입이 완료되었습니다!.!');
+    navigate('/login');
+  } else {
+    alert('중복된 ID가 존재합니다.');
+  }
 };
 
 const handleSignIn = (event) => {
