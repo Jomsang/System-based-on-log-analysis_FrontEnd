@@ -5,12 +5,12 @@ import axios from 'axios';
 
 
 
-const img = [
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130402_img.jpg/dims/resize/x610/optimize',
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130403_img.jpg/dims/resize/x610/optimize',
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130404_img.jpg/dims/resize/x610/optimize',
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130405_img.jpg/dims/resize/x610/optimize'
-]
+// const img = [
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130402_img.jpg/dims/resize/x610/optimize',
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130403_img.jpg/dims/resize/x610/optimize',
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130404_img.jpg/dims/resize/x610/optimize',
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130405_img.jpg/dims/resize/x610/optimize'
+// ]
 
 const ModelImage = ({product}) => {
   const [mainImage, setMainImage] = useState();
