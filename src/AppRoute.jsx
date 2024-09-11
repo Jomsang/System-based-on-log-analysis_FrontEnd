@@ -58,7 +58,7 @@ const AppRoute = (props) => {
                   <Route path="/mainLogIn" element={<Main />} />
                   <Route path="/error" element={<Error />} />
                   <Route path="/modelList" element={<ModelList />} />
-                  <Route path="/modelDetail" element={<ModelDetail />} />
+                  <Route path="/modelDetail/:mdlCd" element={<ModelDetail />} />
 
                   {/* 로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 error페이지 리다이렉트 */}
                   <Route path="*" element={<Navigate to="/mainLogIn" />} />
