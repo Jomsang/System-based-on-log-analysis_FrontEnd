@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './ProductInfo.module.css';
 
-const ProductInfo = () => {
+const ProductInfo = ({product}) => {
+  
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (amount) => {
@@ -11,19 +12,22 @@ const ProductInfo = () => {
     });
   };
 
+  // if (!product) return <div>No data available</div>;
+
   return (
     <div className={styles.productInfo}>
-      <h1>Product name</h1>
+      <h1>{product.modelName}</h1>
       <p className={styles.description}>
-        Aliquip fugiat ipsum nostrud ex et eu incididunt.
+        상품코드 : {product.modelCode}
       </p>
       <div className={styles.priceSection}>
-        <span className={styles.currentPrice}>$32</span>
+        <span className={styles.currentPrice}>
+          가격 : {product.cost}
+          </span>
         {/* <span className={styles.originalPrice}>$42</span> */}
       </div>
       <p className={styles.additionalInfo}>
-        In ullamco labore mollit et exercitation fugiat exercitation minim ex sint ullamco exercitation amet officia mollit.
-        Qui cillum pariatur in con.
+        색상 : {product.modelColor}
       </p>
       <div className={styles.reviewInfo}>
         {/* <span className={styles.reviewCnt}>368</span> <span className={styles.reviewTxt}>reviews</span>  
@@ -36,14 +40,14 @@ const ProductInfo = () => {
       </div>
 
       <div className={styles.optionDiv}>
-        <div className={styles.sizeSelector}>
+        {/* <div className={styles.sizeSelector}>
           <label>Choose size</label>
           <select id="size" name="size">
             <option value="KING SIZE">KING SIZE</option>
             <option value="SINGLE SIZE">SINGLE SIZE</option>
             <option value="DOUBLE SIZE">DOUBLE SIZE</option>
           </select>
-        </div>
+        </div> */}
 
         <div className={styles.qtySelector}>
           <label>Quantity</label>
@@ -56,7 +60,7 @@ const ProductInfo = () => {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.addToBag}>Add to bag</button>
+        <button className={styles.addToBag}>좋아요</button>
         <button className={styles.checkout}>Checkout</button>
       </div>
     </div>

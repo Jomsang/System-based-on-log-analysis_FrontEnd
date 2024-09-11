@@ -5,39 +5,32 @@ import axios from 'axios';
 
 
 
-const img = [
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130402_img.jpg/dims/resize/x610/optimize',
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130403_img.jpg/dims/resize/x610/optimize',
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130404_img.jpg/dims/resize/x610/optimize',
-  'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130405_img.jpg/dims/resize/x610/optimize'
-]
+// const img = [
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130402_img.jpg/dims/resize/x610/optimize',
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130403_img.jpg/dims/resize/x610/optimize',
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130404_img.jpg/dims/resize/x610/optimize',
+//   'https://static.hyundailivart.co.kr/upload_mall/goods/P200161208/GM43130405_img.jpg/dims/resize/x610/optimize'
+// ]
 
-const ModelImage = () => {
-  const [mainImage, setMainImage] = useState(img[0]);
+const ModelImage = ({product}) => {
+  const [mainImage, setMainImage] = useState();
   const[posts, setPosts] = useState([]);
-  useEffect(()=> {
-    axios({
-      method: 'POST',
-      data: "TestUser2",
-      url:'http://localhost:8080/like/selectLikedModel'
-    }).then(response => setPosts(response.data));
-  })
 
 
   return (
     <div className={styles.container}>
         <div className={styles.modelImage}>
-            {img.map((img,index) => 
+            {/* {img.map((img,index) => 
               <img 
               src ={img} 
               key = {index}
-              onClick={() => setMainImage(img)}
+              onClick={() => setMainImage({img})}
               /> 
-            )}
+            )} */}
         </div>
         <div className={styles.modelMainImg}>
-            <img src={mainImage} alt='' ></img>
-            <span className={styles.bestSeller}>Best Seller</span>
+            <img src={product.imagePath} alt={product.imageName} ></img>
+            {/* <span className={styles.bestSeller}>Best Seller</span> */}
         </div>
     </div>
   );
