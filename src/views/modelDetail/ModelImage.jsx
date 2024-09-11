@@ -1,5 +1,7 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import styles from './ModelImage.module.css'
+import axios from 'axios';
+// import { insertLike } from './api'; // api.js 파일의 함수 import
 
 
 
@@ -12,6 +14,14 @@ const img = [
 
 const ModelImage = () => {
   const [mainImage, setMainImage] = useState(img[0]);
+  const[posts, setPosts] = useState([]);
+  useEffect(()=> {
+    axios({
+      method: 'POST',
+      data: "TestUser2",
+      url:'http://localhost:8080/like/selectLikedModel'
+    }).then(response => setPosts(response.data));
+  })
 
 
   return (
