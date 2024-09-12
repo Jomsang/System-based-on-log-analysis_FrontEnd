@@ -21,7 +21,7 @@ const Chat = () => {
     const [recentChats, setRecentChats] = useState([]);
     const [activeChat, setActiveChat] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null);
-    const [tempUserId, setUserId] = useState('1234');
+    const [tempUserId, setTempUserId] = useState('guest');
 
     // 초기 채팅방 목록을 가져오는 useEffect
     useEffect(() => {
@@ -41,6 +41,7 @@ const Chat = () => {
             }
           };
           fetchData();
+          setTempUserId(localStorage.getItem("userId"));
     }, []);
 
     const addChatRoom = () => {
@@ -414,6 +415,10 @@ const MessageForm = ({ onSendMessage }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if(message == "" || message == null || image == "" || image == null) {
+            alert("Please enter message and image.");
+            return;
+        }
         if (message && !image) {
             onSendMessage(message, '', false);
         }
