@@ -2,6 +2,9 @@ import React from 'react';
 import styles from './ModelList.module.css';
 
 function Model({ product }) {
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('ko-KR').format(value);
+  };
 
   const handleClick = (redirectId) => {
       window.location.href = "/modelDetail/"+redirectId;
@@ -17,7 +20,7 @@ function Model({ product }) {
     />
     <div className={styles.productInfo}>
       <p className={styles.productName}>{product.modelName}</p>
-      <p className={styles.productPrice}>{product.cost}</p>
+      <p className={styles.productPrice}>{formatNumber(product.cost)}</p>
     </div>
   </div>   
   );
