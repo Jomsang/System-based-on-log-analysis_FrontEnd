@@ -269,7 +269,7 @@ const Chat = () => {
     };
 
     const handleDeleteChat = (chatId) => {
-        //axios.post('http://localhost:8080/chatJpa/deleteChat', { userId: '1234', chatId })
+        //axios.post('http://localhost:8080/chatJpa/deleteChat', { userId: '1234', chatId: chatId })
         deletechat(tempUserId, chatId)
             .then(() => {
                 setChats((prevChats) => prevChats.filter(chat => chat.chatId !== chatId));

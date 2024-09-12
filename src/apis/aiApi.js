@@ -29,7 +29,7 @@ export const insertChat = async (updatedCurrentChat) => {
 // chat delete
 export const deletechat = async (pUserId, pChatId) => {
   try {
-    const response = await axiosAiApi.post('/chatJpa/deleteChat', { userId: pUserId, pChatId });
+    const response = await axiosAiApi.post('/chatJpa/deleteChat', { userId: pUserId, chatId: pChatId });
     console.log("응답 deletechat", response.data);
     return response.data;
   } catch (error) {
