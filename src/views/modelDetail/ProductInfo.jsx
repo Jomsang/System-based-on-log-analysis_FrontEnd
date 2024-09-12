@@ -1,9 +1,60 @@
-import React, { useState } from 'react';
 import styles from './ProductInfo.module.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const ProductInfo = ({product}) => {
-  
+const ProductInfo = ({ product }) => {
+  const userId = localStorage.getItem('userId');
+  const mdlCd = product.modelCode;
+
   const [quantity, setQuantity] = useState(1);
+  const [likeYn, setLikeYn] = useState(null);
+  const [message, setMessage] = useState('');
+
+  useEffect( () => {
+    const response =  axios.post('http://localhost:8080/like/selectLikedModelDetail', {
+      userId: userId,
+      mdlCd: mdlCd
+    }).then(function (response) {
+      console.log(response.data);
+      setLikeYn(response.data);
+    })
+  },  [userId, mdlCd]);
+
+  // 좋아요 버튼 클릭 시 실행
+  const handleLikeButtonClick = async () => {
+    try {
+      if (likeYn === 'Y') {
+        // DELETE 요청
+        await axios.post('http://localhost:8080/like/deleteLike', {
+          userId: userId,
+          mdlCd: mdlCd,
+        });
+        setLikeYn('N'); // 상태를 'N'으로 변경
+        // setMessage('좋아요를 취소했습니다.');
+        // alert(message);
+      } else {
+        // INSERT 요청
+        await axios.post('http://localhost:8080/like/insertLike', {
+          userId: userId,
+          mdlCd: mdlCd,
+        });
+        setLikeYn('Y'); // 상태를 'Y'으로 변경
+        // setMessage('좋아요를 누르셨습니다.');
+        // alert(message);
+      }
+    } catch (error) {
+      console.error('Error handling like button click:', error);
+    }
+  };
+
+  // likeYn 값이 변경될 때 메시지 업데이트
+  // useEffect(() => {
+  //   if (likeYn === 'Y') {
+  //     // setMessage('좋아요를 누르셨습니다.');
+  //   } else if (likeYn === 'N') {
+  //     // setMessage('아직 좋아요를 누르지 않았습니다.');
+  //   }
+  // }, [likeYn]);
 
   const handleQuantityChange = (amount) => {
     setQuantity((prevQuantity) => {
@@ -12,43 +63,19 @@ const ProductInfo = ({product}) => {
     });
   };
 
-  // if (!product) return <div>No data available</div>;
+  // 렌더링
+  if (!product) return <div>No data available</div>;
 
   return (
     <div className={styles.productInfo}>
       <h1>{product.modelName}</h1>
-      <p className={styles.description}>
-        상품코드 : {product.modelCode}
-      </p>
+      <p className={styles.description}>상품코드 : {product.modelCode}</p>
       <div className={styles.priceSection}>
-        <span className={styles.currentPrice}>
-          가격 : {product.cost}
-          </span>
-        {/* <span className={styles.originalPrice}>$42</span> */}
+        <span className={styles.currentPrice}>가격 : {product.cost}</span>
       </div>
-      <p className={styles.additionalInfo}>
-        색상 : {product.modelColor}
-      </p>
-      <div className={styles.reviewInfo}>
-        {/* <span className={styles.reviewCnt}>368</span> <span className={styles.reviewTxt}>reviews</span>  
-        <span className={styles.soldCnt}>823</span>  <span className={styles.soldTxt}>sold</span>  
-        <span className={styles.reviewStar}>☆☆☆☆☆</span><span className={styles.rating}>4.5</span> */}
-      </div>
-      <div className={styles.benefits}>
-        {/* <p>✅ Free shipping on orders over $49USD</p>
-        <p>✅ Free + easy returns</p> */}
-      </div>
+      <p className={styles.additionalInfo}>색상 : {product.modelColor}</p>
 
       <div className={styles.optionDiv}>
-        {/* <div className={styles.sizeSelector}>
-          <label>Choose size</label>
-          <select id="size" name="size">
-            <option value="KING SIZE">KING SIZE</option>
-            <option value="SINGLE SIZE">SINGLE SIZE</option>
-            <option value="DOUBLE SIZE">DOUBLE SIZE</option>
-          </select>
-        </div> */}
-
         <div className={styles.qtySelector}>
           <label>Quantity</label>
           <div className={styles.quantityControls}>
@@ -60,7 +87,9 @@ const ProductInfo = ({product}) => {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.addToBag}>좋아요</button>
+        <button onClick={handleLikeButtonClick} className={styles.addToBag}>
+          {likeYn === 'N' ? '좋아요♡' : '좋아요♥'}
+        </button>
         <button className={styles.checkout}>Checkout</button>
       </div>
     </div>
