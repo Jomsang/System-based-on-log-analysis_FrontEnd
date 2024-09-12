@@ -21,7 +21,7 @@ const Chat = () => {
     const [recentChats, setRecentChats] = useState([]);
     const [activeChat, setActiveChat] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null);
-    const [tempUserId, setUserId] = useState('1234');
+    const [tempUserId, setTempUserId] = useState('guest');
 
     // 초기 채팅방 목록을 가져오는 useEffect
     useEffect(() => {
@@ -32,15 +32,16 @@ const Chat = () => {
         //     })
         //     .catch(error => console.error('Error fetching chat rooms:', error));
 
-        const fetchData = async () => {
+        const fetchData = async (pUserId) => {
             try {
-              const res = await selectChat(tempUserId);
+              const res = await selectChat(pUserId);
               setChats(res);
             } catch (error) {
               console.error('Error fetching chat rooms:', error);
             }
           };
-          fetchData();
+          fetchData(localStorage.getItem("userId"));
+          setTempUserId(localStorage.getItem("userId"));
     }, []);
 
     const addChatRoom = () => {
@@ -72,6 +73,7 @@ const Chat = () => {
     };
 
     const handleSendMessage = async (textMessage, imgMessage, isImage = false) => {
+        console.log("현재 로그인아이디: " + tempUserId);
         const isTypingExists = messages.some((msg) => msg.isTyping);
         if (activeChat != null && !isTypingExists) {
             const newUserMessage = {
@@ -414,6 +416,10 @@ const MessageForm = ({ onSendMessage }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if(message == "" || message == null || image == "" || image == null) {
+            alert("Please enter message and image.");
+            return;
+        }
         if (message && !image) {
             onSendMessage(message, '', false);
         }
