@@ -5,6 +5,9 @@ import AddShoppingCart from '@mui/icons-material/AddShoppingCart';
 
 
 const RelatedModel = ({relatePrd}) => {
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('ko-KR').format(value);
+  };
   const handleClick = (redirectUrl) => {
     window.location.href = redirectUrl;
   };
@@ -18,7 +21,7 @@ const RelatedModel = ({relatePrd}) => {
            <h2 style={{fontSize:'25px'}}>{product.modelName}</h2>
            <p style={{fontSize:'90%'}}>{product.modelDetail}</p>
            <div className={styles.descSection}>
-             <span className={styles.currentPrice}>{product.cost}</span>
+             <span className={styles.currentPrice}>{formatNumber(product.cost)}</span>
              {/* <span className={styles.originalPrice}>$42</span> */}
              <AddShoppingCart fontSize='medium' sx={{ ml: 24 }}></AddShoppingCart>
            </div>

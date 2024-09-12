@@ -10,6 +10,10 @@ const ProductInfo = ({ product }) => {
   const [likeYn, setLikeYn] = useState(null);
   const [message, setMessage] = useState('');
 
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('ko-KR').format(value);
+  };
+
   useEffect( () => {
     const response =  axios.post('http://localhost:8080/like/selectLikedModelDetail', {
       userId: userId,
@@ -71,7 +75,7 @@ const ProductInfo = ({ product }) => {
       <h1>{product.modelName}</h1>
       <p className={styles.description}>상품코드 : {product.modelCode}</p>
       <div className={styles.priceSection}>
-        <span className={styles.currentPrice}>가격 : {product.cost}</span>
+        <span className={styles.currentPrice}>가격 : {formatNumber(product.cost)}</span>
       </div>
       <p className={styles.additionalInfo}>색상 : {product.modelColor}</p>
 
