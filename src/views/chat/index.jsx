@@ -3,12 +3,17 @@ import Typing from "react-typing-animation";
 import styles from "./chat.module.css"; // CSS 임포트
 import Sidebar from "./Sidebar.jsx";
 import Topbar from "./Topbar.jsx";
+import axios from 'axios';
+import { selectChat } from 'apis/aiApi';
+import { insertChat } from 'apis/aiApi';
+import { deletechat } from 'apis/aiApi';
+import { getAiMessages } from 'apis/aiApi';
 
 const Chat = () => {
     const [chats, setChats] = useState([
-        { id: 1, name: 'Chat 1', messages: [{text: 'hihi', isUser: true}, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
-        { id: 2, name: 'Chat 2', messages: [{ text: 'Hi', isUser: true }, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
-        { id: 3, name: 'Chat 3', messages: [{ text: 'HiHiHi', isUser: true }, {text: 'Your message is: "ddd"', isUser: false, isTyping: false, id: 1722958320710}] },
+        // { userId: 1234, chatId: 1, chatName: 'Chat 1', messages: [{textMessage: 'hihi11', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd11"',"imgMessage": "",isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        // { userId: 1234, chatId: 2, chatName: 'Chat 2', messages: [{textMessage: 'hihi22', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd22"', "imgMessage": "",isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
+        // { userId: 1234, chatId: 3, chatName: 'Chat 3', messages: [{textMessage: 'hihi33', imgMessage: '',  isUser: true, isImage: false, isTyping: false, message_id: 1722958320710}, {textMessage: 'Your message is: "ddd33"', "imgMessage": "",isUser: false, isImage: false, isTyping: false, message_id: 1722958320710}] },
     ]);
 
     const [currentTypingId, setCurrentTypingId] = useState(null);
@@ -16,12 +21,34 @@ const Chat = () => {
     const [recentChats, setRecentChats] = useState([]);
     const [activeChat, setActiveChat] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null);
+    const [tempUserId, setUserId] = useState('1234');
+
+    // 초기 채팅방 목록을 가져오는 useEffect
+    useEffect(() => {
+        // axios.post('http://localhost:8080/chatJpa/selectChat', { userId: '1234' })
+        //     .then(response => {
+        //         setChats(response.data);
+        //         console.log(response.data);
+        //     })
+        //     .catch(error => console.error('Error fetching chat rooms:', error));
+
+        const fetchData = async () => {
+            try {
+              const res = await selectChat(tempUserId);
+              setChats(res);
+            } catch (error) {
+              console.error('Error fetching chat rooms:', error);
+            }
+          };
+          fetchData();
+    }, []);
 
     const addChatRoom = () => {
         const newChatId = chats.length + 1;
         const newChat = {
-            id: newChatId,
-            name: `Chat ${newChatId}`,
+            userId: tempUserId,
+            chatId: newChatId,
+            chatName: `Chat ${newChatId}`,
             messages: []
         };
         setChats([...chats, newChat]);
@@ -30,92 +57,195 @@ const Chat = () => {
         setActiveChat(newChatId);
     };
 
-    const handleSendMessage = (message, isImage = false) => {
+    // 시간을 YYYYMMDDHHMMSSmmm 형식으로 변환하는 함수
+    const getFormattedTime = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const milliseconds = String(date.getMilliseconds()).padStart(3, '0'); // 밀리초는 3자리
+
+        return `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+    };
+
+    const handleSendMessage = async (textMessage, imgMessage, isImage = false) => {
         const isTypingExists = messages.some((msg) => msg.isTyping);
         if (activeChat != null && !isTypingExists) {
-            const newUserMessage = { text: message, isUser: true, isImage };
+            const newUserMessage = {
+                textMessage: textMessage,
+                imgMessage: imgMessage,
+                isUser: true,
+                isImage: isImage,
+                isTyping: false,
+                messageId: getFormattedTime()
+            };
             const newAIResponse = {
-                text: `Your message is: "${message}"`,
+                textMessage: `Typing...`,
+                imgMessage: imgMessage,
                 isUser: false,
+                isImage: false,
                 isTyping: true,
-                id: Date.now()
+                messageId: getFormattedTime()
             };
 
-            setChats((prevChats) => {
-                const updatedChats = prevChats.map((chat) => {
-                    if (chat.id === activeChat) {
-                        return {
-                            ...chat,
-                            messages: [...chat.messages, newUserMessage, newAIResponse]
-                        };
-                    }
-                    return chat;
-                });
+            // 미리 메시지 업데이트: 새로운 메시지 목록을 만듦
+            const updatedChats = chats.map((chat) => {
+                if (chat.chatId === activeChat) {
+                    return {
+                        ...chat,
+                        messages: [...chat.messages, newUserMessage, newAIResponse]
+                    };
+                }
+                return chat;
+            });
+            
+            const currentChat = updatedChats.find((chat) => chat.chatId  === activeChat);
+            setRecentChats((prevRecentChats) => {
+                const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.chatId !== activeChat)];
+                return updatedRecentChats.slice(0, 5);
+            });
+            // setChats와 setMessages로 상태 업데이트
+            setChats(updatedChats);
+            setMessages([...messages, newUserMessage, newAIResponse]);
 
-                const currentChat = updatedChats.find((chat) => chat.id === activeChat);
+            // AI 메시지를 가져오기 위해 서버로 POST 요청
+            // const response = await axios.post('http://localhost:8080/chatJpa/getAiMessages', { userMessage: newUserMessage });
+            // const aiMessages = response.data; // 서버에서 받은 AI 메시지
+            //console.log(aiMessages);
+            const res = await getAiMessages(newUserMessage);
+            const aiMessages = res;
 
-                setRecentChats((prevRecentChats) => {
-                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.id !== activeChat)];
-                    return updatedRecentChats.slice(0, 5);
-                });
+            // AI 메시지 반영을 위해 메시지 업데이트
+            const updatedMessages = updatedChats.map((chat) => {
+                if (chat.chatId === activeChat) {
+                    return chat.messages.map((msg) => {
+                        if (msg.isTyping && !msg.isUser) {
+                            return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
+                        }
+                        return msg;
+                    });
+                }
+                return []; // 변경된 부분
+            }).flat(); // 중첩 배열을 평탄화
 
-                return updatedChats;
+            console.log(updatedMessages);
+            
+            // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
+            const finalChats = updatedChats.map((chat) => {
+                if (chat.chatId === activeChat) {
+                    return { ...chat, messages: updatedMessages };
+                }
+                return chat;
             });
 
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                newUserMessage,
-                newAIResponse
-            ]);
+            console.log('******');
+            console.log(finalChats);
+
+            // 상태 업데이트
+            setChats(finalChats);
+            setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
+
+            // **채팅방 전체 메시지를 저장하는 API 호출**
+            const updatedCurrentChat = finalChats.find((chat) => chat.chatId === activeChat);
+            console.log(updatedCurrentChat);
+            if (updatedCurrentChat) {
+                // await axios.post('http://localhost:8080/chatJpa/insertChatMessages', updatedCurrentChat);
+                // console.log('Messages saved successfully.');
+                await insertChat(updatedCurrentChat);
+            }
+
         } else if (activeChat != null && isTypingExists) {
             alert("Please wait until the current message is finished typing.");
             return;
         } else if (activeChat == null && !isTypingExists) {
             const newChatId = chats.length + 1;
             const newChat = {
-                id: newChatId,
-                name: `Chat ${newChatId}`,
+                userId: tempUserId,
+                chatId: newChatId,
+                chatName: `Chat ${newChatId}`,
                 messages: []
             };
-            setChats([...chats, newChat]);
 
-            const newUserMessage = { text: message, isUser: true, isImage };
+            const newUserMessage = {
+                textMessage: textMessage,
+                imgMessage: imgMessage,
+                isUser: true,
+                isImage: isImage,
+                isTyping: false,
+                messageId: getFormattedTime()
+            };
             const newAIResponse = {
-                text: `Your message is: "${message}"`,
+                textMessage: `Typing...`,
+                imgMessage: imgMessage,
                 isUser: false,
+                isImage: false,
                 isTyping: true,
-                id: Date.now()
+                messageId: getFormattedTime()
             };
 
-            setChats((prevChats) => {
-                const updatedChats = prevChats.map((chat) => {
-                    if (chat.id === newChatId) {
-                        return {
-                            ...chat,
-                            messages: [...chat.messages, newUserMessage, newAIResponse]
-                        };
-                    }
-                    return chat;
-                });
+            // 미리 메시지 업데이트: 새로운 메시지 목록을 만듦
+            const insertChats = {...newChat, messages: [...messages, newUserMessage, newAIResponse]};
+            const updatedChats = [...chats, insertChats];
 
-                const currentChat = updatedChats.find((chat) => chat.id === newChatId);
+            const currentChat = updatedChats.find((chat) => chat.chatId  === newChatId);
+            setRecentChats((prevRecentChats) => {
+                const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.chatId !== newChatId)];
+                return updatedRecentChats.slice(0, 5);
+            });
+            // setChats와 setMessages로 상태 업데이트
+            setChats(updatedChats);
+            setMessages([...messages, newUserMessage, newAIResponse]);
+            setActiveChat(newChatId);
+            setSelectedChatId(newChatId);
 
-                setRecentChats((prevRecentChats) => {
-                    const updatedRecentChats = [currentChat, ...prevRecentChats.filter((chat) => chat.id !== newChatId)];
-                    return updatedRecentChats.slice(0, 5);
-                });
+            
+            // AI 메시지를 가져오기 위해 서버로 POST 요청
+            // const response = await axios.post('http://localhost:8080/chatJpa/getAiMessages', { userMessage: newUserMessage });
+            // const aiMessages = response.data; // 서버에서 받은 AI 메시지
+            // console.log(aiMessages);
+            const res = await getAiMessages(newUserMessage);
+            const aiMessages = res;
 
-                return updatedChats;
+            // AI 메시지 반영을 위해 메시지 업데이트
+            const updatedMessages = updatedChats.map((chat) => {
+                if (chat.chatId === newChatId) {
+                    return chat.messages.map((msg) => {
+                        if (msg.isTyping && !msg.isUser) {
+                            return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
+                        }
+                        return msg;
+                    });
+                }
+                return []; // 변경된 부분
+            }).flat(); // 중첩 배열을 평탄화
+            console.log('******');
+            console.log(updatedMessages);
+
+            // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
+            const finalChats = updatedChats.map((chat) => {
+                if (chat.chatId === newChatId) {
+                    return { ...chat, messages: updatedMessages };
+                }
+                return chat;
             });
 
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                newUserMessage,
-                newAIResponse
-            ]);
+            console.log('******');
+            console.log(finalChats);
 
-            setSelectedChatId(newChatId);
-            setActiveChat(newChatId);
+            // 상태 업데이트
+            setChats(finalChats);
+            setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
+            // **채팅방 전체 메시지를 저장하는 API 호출**
+            const updatedCurrentChat = finalChats.find((chat) => chat.chatId === newChatId);
+            console.log(updatedCurrentChat);
+            if (updatedCurrentChat) {
+                // await axios.post('http://localhost:8080/chatJpa/insertChatMessages', updatedCurrentChat);
+                // console.log('Messages saved successfully.');
+                await insertChat(updatedCurrentChat);
+            }
         }
     };
 
@@ -127,7 +257,7 @@ const Chat = () => {
             return;
         }
 
-        const selectedChat = chats.find((chat) => chat.id === chatId);
+        const selectedChat = chats.find((chat) => chat.chatId === chatId);
         setSelectedChatId(chatId);
 
         if (selectedChat) {
@@ -139,30 +269,33 @@ const Chat = () => {
     };
 
     const handleDeleteChat = (chatId) => {
-        setChats((prevChats) => prevChats.filter(chat => chat.id !== chatId));
-        setRecentChats((prevRecentChats) => prevRecentChats.filter(chat => chat.id !== chatId));
-        
-        if (activeChat === chatId) {
-            setActiveChat(null);
-            setSelectedChatId(null);
-            setMessages([]);
-        }
-
-        console.log('***' + messages);
+        //axios.post('http://localhost:8080/chatJpa/deleteChat', { userId: '1234', chatId: chatId })
+        deletechat(tempUserId, chatId)
+            .then(() => {
+                setChats((prevChats) => prevChats.filter(chat => chat.chatId !== chatId));
+                setRecentChats((prevRecentChats) => prevRecentChats.filter(chat => chat.chatId !== chatId));
+                
+                if (activeChat === chatId) {
+                    setActiveChat(null);
+                    setSelectedChatId(null);
+                    setMessages([]);
+                }
+            })
+            .catch(error => console.error('Error deleting chat:', error));
     };
 
     const handleEndTyping = (id) => {
         setMessages((prevMessages) =>
             prevMessages.map((msg) =>
-                msg.id === id ? { ...msg, isTyping: false } : msg
+                msg.messageId === id ? { ...msg, isTyping: false } : msg
             )
         );
 
         setChats((prevChats) =>
             prevChats.map((chat) => {
-                if (chat.id === activeChat) {
+                if (chat.chatId === activeChat) {
                     const updatedMessages = chat.messages.map((msg) =>
-                        msg.id === id ? { ...msg, isTyping: false } : msg
+                        msg.messageId === id ? { ...msg, isTyping: false } : msg
                     );
                     return { ...chat, messages: updatedMessages };
                 }
@@ -179,7 +312,7 @@ const Chat = () => {
                 (msg) => !msg.isUser && msg.isTyping
             );
             if (nextTypingMessage) {
-                setCurrentTypingId(nextTypingMessage.id);
+                setCurrentTypingId(nextTypingMessage.messageId);
             }
         }
     }, [messages, currentTypingId]);
@@ -239,50 +372,57 @@ const MessageList = ({ messages, currentTypingId, onEndTyping }) => (
 );
 
 const Message = ({
-    text,
+    textMessage,
+    imgMessage,
     isUser,
-    isTyping,
-    id,
     isImage,
+    isTyping,
+    messageId,
     onEndTyping,
     currentTypingId
 }) => {
     return (
         <div className={isUser ? styles.userMessage : styles.aiMessage}>
-            {isTyping && currentTypingId === id ? (
-                <Typing speed={5} onFinishedTyping={() => onEndTyping(id)}>
+            {isTyping && currentTypingId === messageId ? (
+                <Typing speed={5} onFinishedTyping={() => onEndTyping(messageId)}>
                     <p>
-                        <b>AI</b>: {text}
+                        <b>AI</b>: {textMessage}
                     </p>
                 </Typing>
             ) : (
                 isImage ? (
                     <div>
+                        <div>
                         <b>{isUser ? "User" : "AI"}</b>:
-                        <img src={text} alt="user upload" className={styles.messageImage} />
+                        {textMessage}
+                        </div>
+                        <img src={imgMessage} alt="user upload" className={styles.messageImage} />
+                        
                     </div>
                 ) : (
                     <p>
-                        <b>{isUser ? "User" : "AI"}</b>: {text}
+                        <b>{isUser ? "User" : "AI"}</b>: {textMessage}
                     </p>
                 )
             )}
         </div>
     );
 };
-
 const MessageForm = ({ onSendMessage }) => {
     const [message, setMessage] = useState("");
     const [image, setImage] = useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (message) {
-            onSendMessage(message);
+        if (message && !image) {
+            onSendMessage(message, '', false);
         }
-        if (image) {
-            onSendMessage(image, true);
+        else if (!message && image) {
+            onSendMessage('image uploaded', image, true);
+        }else{
+            onSendMessage(message, image, true);
         }
+
         setMessage("");
         setImage(null);
     };
@@ -317,6 +457,14 @@ const MessageForm = ({ onSendMessage }) => {
             <button type="submit" className={styles.sendButton}>
                 <img src="image/chatSend.png" height="40px" width="40px" alt="Send" />
             </button>
+            {image && (
+                <div className={styles.imagePreview}>
+                    <img src={image} alt="Preview" className={styles.previewImage} />
+                    <button type="button" className={styles.removeImageButton} onClick={() => setImage(null)}>
+                        X
+                    </button>
+                </div>
+            )}
         </form>
     );
 };
