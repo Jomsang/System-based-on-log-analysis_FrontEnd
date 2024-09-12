@@ -32,17 +32,16 @@ const Chat = () => {
         //     })
         //     .catch(error => console.error('Error fetching chat rooms:', error));
 
-        const fetchData = async () => {
+        const fetchData = async (pUserId) => {
             try {
-              const res = await selectChat(tempUserId);
+              const res = await selectChat(pUserId);
               setChats(res);
             } catch (error) {
               console.error('Error fetching chat rooms:', error);
             }
           };
-          fetchData();
+          fetchData(localStorage.getItem("userId"));
           setTempUserId(localStorage.getItem("userId"));
-          console.log(tempUserId);
     }, []);
 
     const addChatRoom = () => {
@@ -74,6 +73,7 @@ const Chat = () => {
     };
 
     const handleSendMessage = async (textMessage, imgMessage, isImage = false) => {
+        console.log("현재 로그인아이디: " + tempUserId);
         const isTypingExists = messages.some((msg) => msg.isTyping);
         if (activeChat != null && !isTypingExists) {
             const newUserMessage = {
