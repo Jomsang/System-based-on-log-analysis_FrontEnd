@@ -4,6 +4,10 @@ import styles from "./chat.module.css"; // CSS 임포트
 import Sidebar from "./Sidebar.jsx";
 import Topbar from "./Topbar.jsx";
 import axios from 'axios';
+import { selectChat } from 'apis/aiApi';
+import { insertChat } from 'apis/aiApi';
+import { deletechat } from 'apis/aiApi';
+import { getAiMessages } from 'apis/aiApi';
 
 const Chat = () => {
     const [chats, setChats] = useState([
@@ -17,21 +21,32 @@ const Chat = () => {
     const [recentChats, setRecentChats] = useState([]);
     const [activeChat, setActiveChat] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null);
+    const [tempUserId, setUserId] = useState('1234');
 
     // 초기 채팅방 목록을 가져오는 useEffect
     useEffect(() => {
-        axios.post('http://localhost:8080/chatJpa/selectChat', { userId: '1234' })
-            .then(response => {
-                setChats(response.data);
-                console.log(response.data);
-            })
-            .catch(error => console.error('Error fetching chat rooms:', error));
+        // axios.post('http://localhost:8080/chatJpa/selectChat', { userId: '1234' })
+        //     .then(response => {
+        //         setChats(response.data);
+        //         console.log(response.data);
+        //     })
+        //     .catch(error => console.error('Error fetching chat rooms:', error));
+
+        const fetchData = async () => {
+            try {
+              const res = await selectChat(tempUserId);
+              setChats(res);
+            } catch (error) {
+              console.error('Error fetching chat rooms:', error);
+            }
+          };
+          fetchData();
     }, []);
 
     const addChatRoom = () => {
         const newChatId = chats.length + 1;
         const newChat = {
-            userId: '1234',
+            userId: tempUserId,
             chatId: newChatId,
             chatName: `Chat ${newChatId}`,
             messages: []
@@ -96,59 +111,59 @@ const Chat = () => {
             setChats(updatedChats);
             setMessages([...messages, newUserMessage, newAIResponse]);
 
-            try {
-                // AI 메시지를 가져오기 위해 서버로 POST 요청
-                const response = await axios.post('http://localhost:8080/chatJpa/getAiMessages', { userMessage: newUserMessage });
-                const aiMessages = response.data; // 서버에서 받은 AI 메시지
-                console.log(aiMessages);
+            // AI 메시지를 가져오기 위해 서버로 POST 요청
+            // const response = await axios.post('http://localhost:8080/chatJpa/getAiMessages', { userMessage: newUserMessage });
+            // const aiMessages = response.data; // 서버에서 받은 AI 메시지
+            //console.log(aiMessages);
+            const res = await getAiMessages(newUserMessage);
+            const aiMessages = res;
 
-                // AI 메시지 반영을 위해 메시지 업데이트
-                const updatedMessages = updatedChats.map((chat) => {
-                    if (chat.chatId === activeChat) {
-                        return chat.messages.map((msg) => {
-                            if (msg.isTyping && !msg.isUser) {
-                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
-                            }
-                            return msg;
-                        });
-                    }
-                    return []; // 변경된 부분
-                }).flat(); // 중첩 배열을 평탄화
-
-                console.log(updatedMessages);
-                
-                // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
-                const finalChats = updatedChats.map((chat) => {
-                    if (chat.chatId === activeChat) {
-                        return { ...chat, messages: updatedMessages };
-                    }
-                    return chat;
-                });
-
-                console.log('******');
-                console.log(finalChats);
-
-                // 상태 업데이트
-                setChats(finalChats);
-                setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
-
-                // **채팅방 전체 메시지를 저장하는 API 호출**
-                const currentChat = finalChats.find((chat) => chat.chatId === activeChat);
-                console.log(currentChat);
-                if (currentChat) {
-                    await axios.post('http://localhost:8080/chatJpa/insertChatMessages', currentChat);
-                    console.log('Messages saved successfully.');
+            // AI 메시지 반영을 위해 메시지 업데이트
+            const updatedMessages = updatedChats.map((chat) => {
+                if (chat.chatId === activeChat) {
+                    return chat.messages.map((msg) => {
+                        if (msg.isTyping && !msg.isUser) {
+                            return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
+                        }
+                        return msg;
+                    });
                 }
-            } catch (error) {
-                console.error('Error fetching AI messages:', error);
+                return []; // 변경된 부분
+            }).flat(); // 중첩 배열을 평탄화
+
+            console.log(updatedMessages);
+            
+            // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
+            const finalChats = updatedChats.map((chat) => {
+                if (chat.chatId === activeChat) {
+                    return { ...chat, messages: updatedMessages };
+                }
+                return chat;
+            });
+
+            console.log('******');
+            console.log(finalChats);
+
+            // 상태 업데이트
+            setChats(finalChats);
+            setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
+
+            // **채팅방 전체 메시지를 저장하는 API 호출**
+            const updatedCurrentChat = finalChats.find((chat) => chat.chatId === activeChat);
+            console.log(updatedCurrentChat);
+            if (updatedCurrentChat) {
+                // await axios.post('http://localhost:8080/chatJpa/insertChatMessages', updatedCurrentChat);
+                // console.log('Messages saved successfully.');
+                await insertChat(updatedCurrentChat);
             }
+
         } else if (activeChat != null && isTypingExists) {
             alert("Please wait until the current message is finished typing.");
             return;
         } else if (activeChat == null && !isTypingExists) {
             const newChatId = chats.length + 1;
             const newChat = {
-                userId: '1234',
+                userId: tempUserId,
                 chatId: newChatId,
                 chatName: `Chat ${newChatId}`,
                 messages: []
@@ -186,50 +201,50 @@ const Chat = () => {
             setActiveChat(newChatId);
             setSelectedChatId(newChatId);
 
-            try {
-                // AI 메시지를 가져오기 위해 서버로 POST 요청
-                const response = await axios.post('http://localhost:8080/chatJpa/getAiMessages', { userMessage: newUserMessage });
-                const aiMessages = response.data; // 서버에서 받은 AI 메시지
-                console.log(aiMessages);
+            
+            // AI 메시지를 가져오기 위해 서버로 POST 요청
+            // const response = await axios.post('http://localhost:8080/chatJpa/getAiMessages', { userMessage: newUserMessage });
+            // const aiMessages = response.data; // 서버에서 받은 AI 메시지
+            // console.log(aiMessages);
+            const res = await getAiMessages(newUserMessage);
+            const aiMessages = res;
 
-                // AI 메시지 반영을 위해 메시지 업데이트
-                const updatedMessages = updatedChats.map((chat) => {
-                    if (chat.chatId === newChatId) {
-                        return chat.messages.map((msg) => {
-                            if (msg.isTyping && !msg.isUser) {
-                                return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
-                            }
-                            return msg;
-                        });
-                    }
-                    return []; // 변경된 부분
-                }).flat(); // 중첩 배열을 평탄화
-                console.log('******');
-                console.log(updatedMessages);
-
-                // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
-                const finalChats = updatedChats.map((chat) => {
-                    if (chat.chatId === newChatId) {
-                        return { ...chat, messages: updatedMessages };
-                    }
-                    return chat;
-                });
-
-                console.log('******');
-                console.log(finalChats);
-
-                // 상태 업데이트
-                setChats(finalChats);
-                setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
-                // **채팅방 전체 메시지를 저장하는 API 호출**
-                const currentChat = finalChats.find((chat) => chat.chatId === newChatId);
-                console.log(currentChat);
-                if (currentChat) {
-                    await axios.post('http://localhost:8080/chatJpa/insertChatMessages', currentChat);
-                    console.log('Messages saved successfully.');
+            // AI 메시지 반영을 위해 메시지 업데이트
+            const updatedMessages = updatedChats.map((chat) => {
+                if (chat.chatId === newChatId) {
+                    return chat.messages.map((msg) => {
+                        if (msg.isTyping && !msg.isUser) {
+                            return { ...msg, textMessage: aiMessages[0].textMessage, isTyping: false, messageId: getFormattedTime()};
+                        }
+                        return msg;
+                    });
                 }
-            } catch (error) {
-                console.error('Error fetching AI messages:', error);
+                return []; // 변경된 부분
+            }).flat(); // 중첩 배열을 평탄화
+            console.log('******');
+            console.log(updatedMessages);
+
+            // 타이핑 메시지를 업데이트한 chats로 다시 업데이트
+            const finalChats = updatedChats.map((chat) => {
+                if (chat.chatId === newChatId) {
+                    return { ...chat, messages: updatedMessages };
+                }
+                return chat;
+            });
+
+            console.log('******');
+            console.log(finalChats);
+
+            // 상태 업데이트
+            setChats(finalChats);
+            setMessages(updatedMessages.flat()); // messages 배열도 최신 메시지로 업데이트
+            // **채팅방 전체 메시지를 저장하는 API 호출**
+            const updatedCurrentChat = finalChats.find((chat) => chat.chatId === newChatId);
+            console.log(updatedCurrentChat);
+            if (updatedCurrentChat) {
+                // await axios.post('http://localhost:8080/chatJpa/insertChatMessages', updatedCurrentChat);
+                // console.log('Messages saved successfully.');
+                await insertChat(updatedCurrentChat);
             }
         }
     };
@@ -254,7 +269,8 @@ const Chat = () => {
     };
 
     const handleDeleteChat = (chatId) => {
-        axios.post('http://localhost:8080/chatJpa/deleteChat', { userId: '1234', chatId })
+        //axios.post('http://localhost:8080/chatJpa/deleteChat', { userId: '1234', chatId })
+        deletechat(tempUserId, chatId)
             .then(() => {
                 setChats((prevChats) => prevChats.filter(chat => chat.chatId !== chatId));
                 setRecentChats((prevRecentChats) => prevRecentChats.filter(chat => chat.chatId !== chatId));
