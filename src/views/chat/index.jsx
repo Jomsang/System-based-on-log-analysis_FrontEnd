@@ -42,6 +42,7 @@ const Chat = () => {
           };
           fetchData();
           setTempUserId(localStorage.getItem("userId"));
+          console.log(tempUserId);
     }, []);
 
     const addChatRoom = () => {
