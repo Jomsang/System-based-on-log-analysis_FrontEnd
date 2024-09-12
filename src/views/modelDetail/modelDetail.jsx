@@ -12,13 +12,17 @@ import axios from 'axios';
 const ModelDetail = () => {
   const { mdlCd } = useParams();
   const[product, setProduct] = useState([]);
+  const[relatePrd, setRelatePrd] = useState([]);
   useEffect(() => {
     if(mdlCd) {
       axios
         .get(`http://localhost:8080/modelDetail/${mdlCd}`)
         .then(response => {
-          setProduct(response.data);
-          console.log(response.data);	
+          setProduct(response.data.product);
+          setRelatePrd(response.data.relatePrd);
+          console.log(response.data.product);	
+          console.log(response.data.relatePrd);
+
         })
         .catch(error => {
           console.error('Error fetching product info:', error);
@@ -34,7 +38,7 @@ const ModelDetail = () => {
         <ProductInfo product={product}/>
       </div>
       <div>
-        <RelatedModel />
+        <RelatedModel relatePrd={relatePrd}/>
       </div>
     </div>
     // <div>
