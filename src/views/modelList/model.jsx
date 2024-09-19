@@ -2,6 +2,9 @@ import React from 'react';
 import styles from './ModelList.module.css';
 import { useNavigate } from "react-router-dom";
 function Model({ product, logOn }) {
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('ko-KR').format(value);
+  };
   const navigate = useNavigate();
 
   const handleClick = (redirectId) => {
@@ -24,7 +27,7 @@ function Model({ product, logOn }) {
     />
     <div className={styles.productInfo}>
       <p className={styles.productName}>{product.modelName}</p>
-      <p className={styles.productPrice}>{product.cost}</p>
+      <p className={styles.productPrice}>{formatNumber(product.cost)}</p>
     </div>
   </div>   
   );
