@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SignUp.module.css';
 import {  useNavigate  } from "react-router-dom";
-import {  doNewUser } from 'apis/springApi';
+import {  doNewUser } from 'apis/userApi';
 
 const SignUp = () => {
 const [newName, setNewName] = useState('');

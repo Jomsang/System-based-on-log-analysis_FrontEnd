@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {  useNavigate  } from "react-router-dom";
 import styles from './Login.module.css';
-import {  doLogin } from 'apis/springApi';
+import {  doLogin } from 'apis/userApi';
 
 const Login = ({onLogin}) => {
 const [userId, setUserId] = useState('');

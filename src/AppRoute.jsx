@@ -57,8 +57,8 @@ const AppRoute = (props) => {
                 <Routes>
                   <Route path="/mainLogIn" element={<Main />} />
                   <Route path="/error" element={<Error />} />
-                  <Route path="/modelList" element={<ModelList />} />
-                  <Route path="/modelDetail/:mdlCd" element={<ModelDetail />} />
+                  <Route path="/modelListLogIn" element={<ModelList logOn={logOn}/>} />
+                  <Route path="/modelDetailLogIn/:mdlCd" element={<ModelDetail />} />
 
                   {/* 로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 error페이지 리다이렉트 */}
                   <Route path="*" element={<Navigate to="/mainLogIn" />} />
@@ -100,6 +100,30 @@ const AppRoute = (props) => {
                 />
             </Layout>
           } />
+          <Route
+            path="/modelListLogOut"
+            element={
+              <Layout logOn={logOn}>
+                <PublicRoute
+                  logOn={logOn}
+                  restricted={false}
+                  element={<ModelList logOn={logOn}/>}
+                />
+              </Layout>  
+            }
+          />
+          <Route
+            path="/modelDetailLogOut/:mdlCd"
+            element={
+              <Layout logOn={logOn}>
+                <PublicRoute
+                  logOn={logOn}
+                  restricted={false}
+                  element={<ModelDetail />}
+                />
+              </Layout>  
+            }
+          />
           {/* 비로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 /login 리다이렉트 */}
           <Route path="*" element={<Navigate to="/mainLogOut" />} />
         </Routes>

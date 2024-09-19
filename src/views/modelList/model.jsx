@@ -1,10 +1,17 @@
 import React from 'react';
 import styles from './ModelList.module.css';
-
-function Model({ product }) {
+import { useNavigate } from "react-router-dom";
+function Model({ product, logOn }) {
+  const navigate = useNavigate();
 
   const handleClick = (redirectId) => {
-      window.location.href = "/modelDetail/"+redirectId;
+    console.log('ModelListDetail - logOn', logOn);
+    if(logOn){
+      navigate("/modelDetailLogIn/"+redirectId);
+    } else {
+      navigate("/modelDetailLogOut/"+redirectId);
+    }
+      // window.location.href = "/modelDetail/"+redirectId;
   };
 
   return (

@@ -11,3 +11,15 @@ export const getModelList = async () => {
       throw error;
     }
   };
+
+  // Header에서 검색 키워드 검색
+export const getSearchModel = async (keyword) => {
+  try {
+    const response = await axiosSpringApi.get(`/modelList/search/${keyword}`);
+    console.log("doSearchProduct 응답 text", response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching message:', error);
+    throw error;
+  }
+};
