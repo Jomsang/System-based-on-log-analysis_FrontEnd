@@ -1,8 +1,6 @@
-import React, {  useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from './Header.module.css';
 import { useNavigate } from "react-router-dom";
-import {  doSearchProduct } from 'apis/springApi';
-
 
 const Header = ({ onLogOut, logOn}) => {
   const [searchKeyword, setSearchKeyWord] = useState('');
@@ -21,24 +19,20 @@ const Header = ({ onLogOut, logOn}) => {
     }
   };
 
-  const handleSearch = async (event) => {
+  const handleSearchOfHeader = async (event) => {
     if (event.key === 'Enter') {
-      const result = await doSearchProduct(searchKeyword)
-      console.log('searchKeyword result: ', result);
+      if(logOn){
+        navigate(`/modelListLogIn?searchKeyword=${searchKeyword}`);
+      } else {
+        navigate(`/modelListLogOut?searchKeyword=${searchKeyword}`);
+      }
+      setSearchKeyWord('');
     }
   }
 
-
-
-  useEffect(() => {
-    console.log("Header logOn? : ", logOn);
-  }, []);
-  
   return (
     <header className={styles.container}>
     <div className={styles.logo}>
-      {/* <img src="/image/shopping.JPG" alt="Logo" /> */}
-      {/* <span>Shopping</span> */}
       {logOn? 
         <>
           <span onClick={() => handleMain(true)} style={{ cursor: 'pointer' }}>Shopping</span>
@@ -50,7 +44,7 @@ const Header = ({ onLogOut, logOn}) => {
         }
     </div>
     <div className={styles.searchBar}>
-      <input type="text" placeholder="Search" className={styles.searchInput} value={searchKeyword}  onChange={(e) => setSearchKeyWord(e.target.value)} onKeyDown={handleSearch}/>
+      <input type="text" placeholder="Search" className={styles.searchInput} value={searchKeyword}  onChange={(e) => setSearchKeyWord(e.target.value)} onKeyDown={handleSearchOfHeader}/>
       <button className={styles.searchButton}>
         <img src="/image/search.JPG" alt="Search" />
       </button>
@@ -72,9 +66,9 @@ const Header = ({ onLogOut, logOn}) => {
           <img src="/image/emptyUser.JPG" alt="User Profile" />
         </>
         }
-        
       </div>
     </div>
+
     </header>
   );
 };
