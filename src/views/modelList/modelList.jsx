@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ModelList.module.css';
 import ViewModel from './model';
-import { getModelList, getSearchModel } from 'apis/modelListApi';
+import { getModelList, getSearchModel, getCategoryModel } from 'apis/modelListApi';
 import { useLocation } from 'react-router-dom';
 
 const ModelList = ({logOn}) => {
@@ -12,6 +12,7 @@ const ModelList = ({logOn}) => {
   // 쿼리 파라미터 파싱
   const params = new URLSearchParams(location.search);
   const searchKeyword = params.get('searchKeyword');
+  const categoryKeyword = params.get('categoryKeyword');
 
 
   const fetchLivartModel = async () => {
@@ -42,15 +43,32 @@ const ModelList = ({logOn}) => {
     }
   };
 
+  const categoryLivartModel = async (categoryKeyword) => {
+    try {
+      // HEADER에서 가구 검색 시 API 호출
+      const response = await getCategoryModel(categoryKeyword);
+      // 성공 시 livartModel에 데이터 저장
+      setLivartModel(response);
+    } catch (err) {
+      setError(err);
+      console.error("API 통신 중 오류 발생:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     console.log('ModelList - logOn', logOn);
     if (searchKeyword) {
       console.log('useEffect - searchKeyword', searchKeyword);
       searchLivartModel(searchKeyword);
+    } else if (categoryKeyword) {
+      console.log('useEffect - categoryKeyword', categoryKeyword);
+      categoryLivartModel(categoryKeyword);
     } else {
       fetchLivartModel();
     }
-  }, [searchKeyword]);
+  }, [searchKeyword, categoryKeyword]);
 
   if (loading) return <div>Loading...</div>;
 
