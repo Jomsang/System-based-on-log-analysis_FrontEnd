@@ -5,7 +5,7 @@ import Category from "./components/Category";
 import BestSelection from "./components/BestSelection";
 import styles from "./Main.module.css"; // 스타일 파일 임포트
 
-const Main = () => {
+const Main = ({ logOn }) => {
   const navigate = useNavigate();
 
   const handleChatBotClick = () => {
@@ -15,8 +15,8 @@ const Main = () => {
   return (
     <div>
       <Banner />
-      <Category />
-      <BestSelection />
+      <Category logOn={logOn} />
+      <BestSelection logOn={logOn} />
 
       {/* 우측 하단에 고정된 챗봇 로고 */}
       <div className={styles.chatBotIcon} onClick={handleChatBotClick}>

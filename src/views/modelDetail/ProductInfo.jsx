@@ -27,24 +27,28 @@ const ProductInfo = ({ product }) => {
   // 좋아요 버튼 클릭 시 실행
   const handleLikeButtonClick = async () => {
     try {
-      if (likeYn === 'Y') {
-        // DELETE 요청
-        await axios.post('http://localhost:8080/like/deleteLike', {
-          userId: userId,
-          mdlCd: mdlCd,
-        });
-        setLikeYn('N'); // 상태를 'N'으로 변경
-        // setMessage('좋아요를 취소했습니다.');
-        // alert(message);
-      } else {
-        // INSERT 요청
-        await axios.post('http://localhost:8080/like/insertLike', {
-          userId: userId,
-          mdlCd: mdlCd,
-        });
-        setLikeYn('Y'); // 상태를 'Y'으로 변경
-        // setMessage('좋아요를 누르셨습니다.');
-        // alert(message);
+      if(userId === null){
+        alert("로그인 하셔야 '좋아요' 기능을 사용할 수 있습니다.");
+      }else{
+        if (likeYn === 'Y') {
+          // DELETE 요청
+          await axios.post('http://localhost:8080/like/deleteLike', {
+            userId: userId,
+            mdlCd: mdlCd,
+          });
+          setLikeYn('N'); // 상태를 'N'으로 변경
+          // setMessage('좋아요를 취소했습니다.');
+          // alert(message);
+        } else {
+          // INSERT 요청
+          await axios.post('http://localhost:8080/like/insertLike', {
+            userId: userId,
+            mdlCd: mdlCd,
+          });
+          setLikeYn('Y'); // 상태를 'Y'으로 변경
+          // setMessage('좋아요를 누르셨습니다.');
+          // alert(message);
+      }
       }
     } catch (error) {
       console.error('Error handling like button click:', error);
