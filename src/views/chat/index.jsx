@@ -85,7 +85,7 @@ const Chat = () => {
                 messageId: getFormattedTime()
             };
             const newAIResponse = {
-                textMessage: `Typing...`,
+                textMessage: `분석중**************`,
                 imgMessage: imgMessage,
                 isUser: false,
                 isImage: false,
@@ -180,7 +180,7 @@ const Chat = () => {
                 messageId: getFormattedTime()
             };
             const newAIResponse = {
-                textMessage: `Typing...`,
+                textMessage: `분석중**************`,
                 imgMessage: imgMessage,
                 isUser: false,
                 isImage: false,
@@ -209,6 +209,7 @@ const Chat = () => {
             // const aiMessages = response.data; // 서버에서 받은 AI 메시지
             // console.log(aiMessages);
             const res = await getAiMessages(newUserMessage);
+
             const aiMessages = res;
 
             // AI 메시지 반영을 위해 메시지 업데이트
@@ -360,7 +361,7 @@ const Chat = () => {
     );
 };
 
-const MessageList = ({ messages, currentTypingId, onEndTyping }) => (
+const MessageList = ({ messages, currentTypingId, onEndTyping }) => {return(
     <div className={styles.messagesList}>
         {messages.map((message, index) => (
             <Message
@@ -371,7 +372,7 @@ const MessageList = ({ messages, currentTypingId, onEndTyping }) => (
             />
         ))}
     </div>
-);
+)};
 
 const Message = ({
     textMessage,
@@ -383,19 +384,35 @@ const Message = ({
     onEndTyping,
     currentTypingId
 }) => {
+
+    const convertTextToLinks = (text) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.split(urlRegex).map((part, index) => {
+          if (part.match(urlRegex)) {
+            return (
+              <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+                {part}
+              </a>
+            );
+          }
+          return part;
+        });
+      };
+
+
     return (
         <div className={isUser ? styles.userMessage : styles.aiMessage}>
             {isTyping && currentTypingId === messageId ? (
                 <Typing speed={5} onFinishedTyping={() => onEndTyping(messageId)}>
                     <p>
-                        <b>AI</b>: {textMessage}
+                        <b>Livart AI</b>: {convertTextToLinks(textMessage)}
                     </p>
                 </Typing>
             ) : (
                 isImage ? (
                     <div>
                         <div>
-                        <b>{isUser ? "User" : "AI"}</b>:
+                        <b>{isUser ? "User" : "Livart AI"}</b>:
                         {textMessage}
                         </div>
                         <img src={imgMessage} alt="user upload" className={styles.messageImage} />
@@ -403,7 +420,7 @@ const Message = ({
                     </div>
                 ) : (
                     <p>
-                        <b>{isUser ? "User" : "AI"}</b>: {textMessage}
+                        <b>{isUser ? "User" : "Livart AI"}</b>: {convertTextToLinks(textMessage)}
                     </p>
                 )
             )}

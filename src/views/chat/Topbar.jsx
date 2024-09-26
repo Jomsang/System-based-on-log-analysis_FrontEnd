@@ -16,7 +16,7 @@ const Topbar = ({onAddChatRoom}) => {
                     alt = ""
                     className= {styles.logoImg}>
                 </img>
-                <span className={styles.logo} onClick={goToBack}>Chatbot Builder</span>
+                <span className={styles.logo} onClick={goToBack}>Livart Chatbot</span>
                 </div>
               <div className={styles.topRight}>
                 <button className={styles.addChatRoom} onClick={onAddChatRoom}>+ Create Chatbot</button>
