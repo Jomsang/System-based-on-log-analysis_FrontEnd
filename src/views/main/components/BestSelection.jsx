@@ -4,20 +4,30 @@ import styles from "./BestSelection.module.css";
 import { fetchMainData } from "apis/mainPageApi"; // API 호출 파일 가져오기
 
 const categories = [
-  "전체",
-  "소파",
-  "식탁",
-  "침대/매트리스",
-  "수납장/서랍장",
-  "옷장/드레스룸",
+  { name: "전체", value: "전체" },
+  { name: "소파", value: "소파" },
+  { name: "식탁", value: "식탁" },
+  { name: "침대/매트리스", value: "침대매트리스" }, // 탭에는 '침대/매트리스'로 표시하지만 필터링 값은 '침대매트리스'
+  { name: "수납장/서랍장", value: "수납장서랍장" },
+  { name: "옷장/드레스룸", value: "옷장드레스룸" },
 ];
 
-function BestSection() {
+function BestSelection({ logOn }) {
   const location = useLocation();
   const navigate = useNavigate();
   const scrollPosition = useRef(0);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
+
+  const handleClick = (redirectId) => {
+    console.log("BestSelection - logOn", logOn);
+    if (logOn) {
+      navigate("/modelDetailLogIn/" + redirectId);
+    } else {
+      navigate("/modelDetailLogOut/" + redirectId);
+    }
+    // window.location.href = "/modelDetail/"+redirectId;
+  };
 
   useLayoutEffect(() => {
     const fetchData = async () => {
@@ -25,6 +35,7 @@ function BestSection() {
         const data = await fetchMainData();
         const productsWithIds = data.map((product, index) => ({
           id: index + 1, // id 부여
+          mdlCd: product.mdlCd,
           category: product.ctgId,
           img: product.imgPath,
           name: product.mdlNm,
@@ -51,8 +62,8 @@ function BestSection() {
 
   const handleCategoryChange = (category) => {
     scrollPosition.current = window.scrollY;
-    setSelectedCategory(category);
-    navigate(`?category=${category}`);
+    setSelectedCategory(category.value); // 필터링은 value 값을 사용
+    navigate(`?category=${category.value}`);
   };
 
   const filteredProducts =
@@ -67,13 +78,13 @@ function BestSection() {
       <div className={styles.categories}>
         {categories.map((category) => (
           <button
-            key={category}
+            key={category.value}
             className={`${styles.categoryButton} ${
-              selectedCategory === category ? styles.active : ""
+              selectedCategory === category.value ? styles.active : ""
             }`}
             onClick={() => handleCategoryChange(category)}
           >
-            {category}
+            {category.name} {/* 탭에는 사람이 읽기 좋은 이름을 표시 */}
           </button>
         ))}
       </div>
@@ -84,7 +95,7 @@ function BestSection() {
               src={product.img}
               alt={product.name}
               className={styles.productImage}
-              onClick={() => (window.location.href = product.url)}
+              onClick={() => handleClick(product.mdlCd)}
             />
             <div className={styles.productInfo}>
               <p className={styles.productName}>{product.name}</p>
@@ -97,4 +108,4 @@ function BestSection() {
   );
 }
 
-export default BestSection;
+export default BestSelection;

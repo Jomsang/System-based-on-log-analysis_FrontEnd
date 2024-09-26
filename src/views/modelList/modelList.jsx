@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import styles from './ModelList.module.css';
-import ViewModel from './model';
-import { getModelList, getSearchModel, getCategoryModel } from 'apis/modelListApi';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import styles from "./ModelList.module.css";
+import ViewModel from "./model";
+import {
+  getModelList,
+  getSearchModel,
+  getCategoryModel,
+} from "apis/modelListApi";
+import { useLocation } from "react-router-dom";
 
-const ModelList = ({logOn}) => {
+const ModelList = ({ logOn }) => {
   const [livartModel, setLivartModel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
   // 쿼리 파라미터 파싱
   const params = new URLSearchParams(location.search);
-  const searchKeyword = params.get('searchKeyword');
-  const categoryKeyword = params.get('categoryKeyword');
-
+  const searchKeyword = params.get("searchKeyword");
+  const categoryKeyword = params.get("categoryKeyword");
 
   const fetchLivartModel = async () => {
     try {
@@ -58,12 +61,14 @@ const ModelList = ({logOn}) => {
   };
 
   useEffect(() => {
-    console.log('ModelList - logOn', logOn);
+    console.log("ModelList - logOn", logOn);
+    console.log("useEffect - searchKeyword", searchKeyword);
+    console.log("useEffect - categoryKeyword", categoryKeyword);
     if (searchKeyword) {
-      console.log('useEffect - searchKeyword', searchKeyword);
+      console.log("useEffect - searchKeyword", searchKeyword);
       searchLivartModel(searchKeyword);
     } else if (categoryKeyword) {
-      console.log('useEffect - categoryKeyword', categoryKeyword);
+      console.log("useEffect - categoryKeyword", categoryKeyword);
       categoryLivartModel(categoryKeyword);
     } else {
       fetchLivartModel();
@@ -76,18 +81,21 @@ const ModelList = ({logOn}) => {
 
   return (
     <div className={styles.container}>
-      {livartModel.length !== 0?
+      {livartModel.length !== 0 ? (
         <div className={styles.productList}>
-          {livartModel.map(product => (
-            <ViewModel key={product.modelCode} product={product} logOn={logOn} />
+          {livartModel.map((product) => (
+            <ViewModel
+              key={product.modelCode}
+              product={product}
+              logOn={logOn}
+            />
           ))}
         </div>
-        :
+      ) : (
         <div className={styles.emptyProductList}>
           <h1>찾고자 하는 상품이 없습니다..&#128514;</h1>
         </div>
-      }
-
+      )}
     </div>
   );
 };
