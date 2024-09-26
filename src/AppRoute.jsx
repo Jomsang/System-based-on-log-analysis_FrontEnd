@@ -17,7 +17,7 @@ const AppRoute = (props) => {
       localStorage.setItem("logOn", JSON.stringify(false));
       savedState = "false";
     }
-    console.log('savedState? ', savedState);
+    console.log("savedState? ", savedState);
     return JSON.parse(savedState);
   };
 
@@ -37,7 +37,7 @@ const AppRoute = (props) => {
     navigate("/mainLogOut");
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     console.log("AppRoute storage logOn?", localStorage.getItem("logOn"));
     console.log("AppRoute status logOn?", logOn);
   });
@@ -48,17 +48,23 @@ const AppRoute = (props) => {
       {logOn ? (
         //로그인 성공 시 사용 가능한 화면들
         <Routes>
-          {/* 채팅 창은 헤더, 푸터 안 나타나게 처리 */} 
+          {/* 채팅 창은 헤더, 푸터 안 나타나게 처리 */}
           <Route path="/chat" element={<Chat />} />
           <Route
             path="*"
             element={
               <Layout onLogOut={handleLogout} logOn={logOn}>
                 <Routes>
-                  <Route path="/mainLogIn" element={<Main />} />
+                  <Route path="/mainLogIn" element={<Main logOn={logOn} />} />
                   <Route path="/error" element={<Error />} />
-                  <Route path="/modelListLogIn" element={<ModelList logOn={logOn}/>} />
-                  <Route path="/modelDetailLogIn/:mdlCd" element={<ModelDetail />} />
+                  <Route
+                    path="/modelListLogIn"
+                    element={<ModelList logOn={logOn} />}
+                  />
+                  <Route
+                    path="/modelDetailLogIn/:mdlCd"
+                    element={<ModelDetail />}
+                  />
 
                   {/* 로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 error페이지 리다이렉트 */}
                   <Route path="*" element={<Navigate to="/mainLogIn" />} />
@@ -90,16 +96,18 @@ const AppRoute = (props) => {
               />
             }
           />
-          <Route path="/mainLogOut" 
-          element={
-            <Layout logOn={logOn}>
-              <PublicRoute
+          <Route
+            path="/mainLogOut"
+            element={
+              <Layout logOn={logOn}>
+                <PublicRoute
                   logOn={logOn}
                   restricted={true}
                   element={<Main />}
                 />
-            </Layout>
-          } />
+              </Layout>
+            }
+          />
           <Route
             path="/modelListLogOut"
             element={
@@ -107,9 +115,9 @@ const AppRoute = (props) => {
                 <PublicRoute
                   logOn={logOn}
                   restricted={false}
-                  element={<ModelList logOn={logOn}/>}
+                  element={<ModelList logOn={logOn} />}
                 />
-              </Layout>  
+              </Layout>
             }
           />
           <Route
@@ -121,7 +129,7 @@ const AppRoute = (props) => {
                   restricted={false}
                   element={<ModelDetail />}
                 />
-              </Layout>  
+              </Layout>
             }
           />
           {/* 비로그인 상태에서 라우팅으로 지정되지 않은 url 입력 시 /login 리다이렉트 */}
