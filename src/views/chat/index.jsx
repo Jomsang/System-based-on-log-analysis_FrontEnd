@@ -386,7 +386,7 @@ const Message = ({
 }) => {
 
     const convertTextToLinks = (text) => {
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urlRegex = /(https?:\/\/[^\s\)]+)/g;
         return text.split(urlRegex).map((part, index) => {
           if (part.match(urlRegex)) {
             return (
