@@ -386,7 +386,11 @@ const Message = ({
 }) => {
 
     const convertTextToLinks = (text) => {
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        // 입력 값이 null 또는 undefined일 경우 빈 문자열로 처리
+        if (!text) {
+            return []; // 빈 배열 반환
+        }
+        const urlRegex = /(https?:\/\/[^\s\)]+)/g;
         return text.split(urlRegex).map((part, index) => {
           if (part.match(urlRegex)) {
             return (
