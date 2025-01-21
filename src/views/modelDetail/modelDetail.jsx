@@ -16,7 +16,7 @@ const ModelDetail = () => {
   useEffect(() => {
     if(mdlCd) {
       axios
-        .get(`http://localhost:8080/modelDetail/${mdlCd}`)
+        .get(`http://jintudy-gh2-env.eba-gsu52njz.ap-northeast-2.elasticbeanstalk.com/modelDetail/${mdlCd}`)
         .then(response => {
           setProduct(response.data.product);
           setRelatePrd(response.data.relatePrd);

@@ -15,7 +15,7 @@ const ProductInfo = ({ product }) => {
   };
 
   useEffect( () => {
-    const response =  axios.post('http://localhost:8080/like/selectLikedModelDetail', {
+    const response =  axios.post('http://jintudy-gh2-env.eba-gsu52njz.ap-northeast-2.elasticbeanstalk.com/like/selectLikedModelDetail', {
       userId: userId,
       mdlCd: mdlCd
     }).then(function (response) {
@@ -29,7 +29,7 @@ const ProductInfo = ({ product }) => {
     try {
       if (likeYn === 'Y') {
         // DELETE 요청
-        await axios.post('http://localhost:8080/like/deleteLike', {
+        await axios.post('http://jintudy-gh2-env.eba-gsu52njz.ap-northeast-2.elasticbeanstalk.com/like/deleteLike', {
           userId: userId,
           mdlCd: mdlCd,
         });
@@ -38,7 +38,7 @@ const ProductInfo = ({ product }) => {
         // alert(message);
       } else {
         // INSERT 요청
-        await axios.post('http://localhost:8080/like/insertLike', {
+        await axios.post('http://jintudy-gh2-env.eba-gsu52njz.ap-northeast-2.elasticbeanstalk.com/like/insertLike', {
           userId: userId,
           mdlCd: mdlCd,
         });
